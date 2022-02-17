@@ -1,0 +1,68 @@
+[
+   {
+       "Name": "Planet Paintball",
+       "Address": "21 paint st",
+       "Products": [
+           {
+               "Name": "Bag of 500 Paintballs",
+               "Price": "$17.50",
+               "Description": "A bag of GI Sportz 4 Star Paintballs.",
+               "Category": "Paintballs"
+           },
+           {
+            "Name": "Bag of 1000 Paintballs",
+            "Price": "$35.00",
+            "Description": "Two 500 count bags of GI Sportz 4 Star Paintballs.",
+            "Category": "Paintballs"
+        },
+        {
+            "Name": "Box of 2000 Paintballs",
+            "Price": "$70.00",
+            "Description": "A box of GI Sportz 4 Star Paintballs.",
+            "Category": "Paintballs"
+        },
+        {
+            "Name": "Low End Paintball Mask",
+            "Price": "$30.00",
+            "Description": "Valken Paintball MI-5 Mask - Black.",
+            "Category": "Mask"
+        },
+        {
+            "Name": "High End Paintball Mask",
+            "Price": "$115.00",
+            "Description": "Empire e-Flex LE Paintball Mask - Black.",
+            "Category": "Mask"
+        },
+        {
+            "Name": "Gravity Fed Hopper",
+            "Price": "$20.00",
+            "Description": "Proto Primo Hopper - Black",
+            "Category": "Hopper"
+        },
+        {
+            "Name": "Electric Hopper",
+            "Price": "$100.00",
+            "Description": "Dye LT-R Hopper - Black.",
+            "Category": "Hopper"
+        },
+        {
+            "Name": "Paintball Pants",
+            "Price": "$50.00",
+            "Description": "Valken Fate Exo Pants - Black.",
+            "Category": "Pants"
+        },
+        {
+            "Name": "Paintball Pod-Pack",
+            "Price": "$50.00",
+            "Description": "HK Army HSTL Base Harness -  Black 4+3.",
+            "Category": "Pod-Pack"
+        },
+        {
+            "Name": "Paintball Pods",
+            "Price": "$3.50",
+            "Description": "Valken Flick Lid 140rd Tube - Smoke.",
+            "Category": "Pods"
+        }
+       ]
+   } 
+]
