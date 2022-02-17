@@ -31,58 +31,98 @@ namespace PPBL
 
             }
 
-            public List<Customer> SearchCustomer(string searchMode, string p_string)
+        public List<Customer> GetCustomers()
+        {
+            return _repo.GetAllCustomers();
+        }
+
+        public List<Customer> SearchCustomer(string searchMode, string p_string)
+        {
+            List<Customer> listOfCustomers = _repo.GetAllCustomers();
+            
+            //search by name (mode will = name) 
+            if(searchMode == "name")
             {
-                List<Customer> listOfCustomers = _repo.GetAllCustomers();
-                
-                //search by name (mode will = name) 
-                if(searchMode == "name")
+
+                var found = listOfCustomers.Find(p => p.Name.Contains(p_string));
+                if(found != null)
                 {
-
-                    var found = listOfCustomers.Find(p => p.Name.Contains(p_string));
-                    if(found != null)
-                    {
-                        //validation process using LINQ Library
-                        return listOfCustomers
-                                .Where(customer => customer.Name.Contains(p_string))
-                                .ToList();
-                    }
-                    else
-                    {
-                        throw new Exception("A customer with this name has not been found.");
-                    }
-
+                    //validation process using LINQ Library
+                    return listOfCustomers
+                            .Where(customer => customer.Name.Contains(p_string))
+                            .ToList();
                 }
-                
-                //search by email (mode will = email)
-                else if(searchMode == "email")
-                {
-
-                    var found = listOfCustomers.Find(p => p.Email == p_string);
-                    if(found != null)
-                    {
-                        //validation process using LINQ Library
-                        return listOfCustomers
-                                .Where(customer => customer.Email.Equals(p_string))
-                                .ToList();
-                    }
-                    else
-                    {
-                        throw new Exception("A customer with this email has not been found.");
-                    }                    
-
-                }
-
-                //If trying to add new search ways and this error ever happens, 
-                //make sure that you typed the searchMode string correctly in the SearchCustomerMenu.
-                //Otherwise if strings in this searchMode match the string passed by the menu, then this
-                //exception should never run unless user's pc is messed up. 
                 else
                 {
-                    throw new Exception("Could not search for customer! Some error has occurred. Try restarting program.");
+                    throw new Exception("A customer with this name has not been found.");
                 }
-                
+
             }
+            
+            //search by email (mode will = email)
+            else if(searchMode == "email")
+            {
+
+                var found = listOfCustomers.Find(p => p.Email == p_string);
+                if(found != null)
+                {
+                    //validation process using LINQ Library
+                    return listOfCustomers
+                            .Where(customer => customer.Email.Equals(p_string))
+                            .ToList();
+                }
+                else
+                {
+                    throw new Exception("A customer with this email has not been found.");
+                }                    
+
+            }
+
+            //If trying to add new search ways and this error ever happens, 
+            //make sure that you typed the searchMode string correctly in the SearchCustomerMenu.
+            //Otherwise if strings in this searchMode match the string passed by the menu, then this
+            //exception should never run unless user's pc is messed up. 
+            else
+            {
+                throw new Exception("Could not search for customer! Some error has occurred. Try restarting program.");
+            }
+            
+        }
+
+        public List<Customer> SearchCustomerByName(string p_customerName)
+        {
+            List<Customer> listOfCustomers = _repo.GetAllCustomers();
+            var found = listOfCustomers.Find(p => p.Name.Contains(p_customerName));
+            if(found != null)
+            {
+                //validation process using LINQ Library
+                return listOfCustomers
+                        .Where(customer => customer.Name.Contains(p_customerName))
+                        .ToList();
+            }
+            else
+            {
+                throw new Exception("A customer with this name has not been found.");
+            }
+        }
+
+        public List<Customer> SearchCustomerByEmail(string p_customerEmail)
+        {
+            List<Customer> listOfCustomers = _repo.GetAllCustomers();
+            var found = listOfCustomers.Find(p => p.Email == p_customerEmail);
+            if(found != null)
+            {
+                //validation process using LINQ Library
+                return listOfCustomers
+                        .Where(customer => customer.Email.Equals(p_customerEmail))
+                        .ToList();
+            }
+            else
+            {
+                throw new Exception("A customer with this Email has not been found.");
+            }
+        }
+
 
     }
 
