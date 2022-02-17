@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetPaintballDL", "Planet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetPaintballTest", "PlanetPaintballTest\PlanetPaintballTest.csproj", "{C0F66BCC-41AE-49FA-84AC-0E8F5D0E0BCF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetPaintballApi", "PlanetPaintballApi\PlanetPaintballApi.csproj", "{7FA76A33-DB8D-43AF-959A-5DD9C700B1FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{C0F66BCC-41AE-49FA-84AC-0E8F5D0E0BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0F66BCC-41AE-49FA-84AC-0E8F5D0E0BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0F66BCC-41AE-49FA-84AC-0E8F5D0E0BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FA76A33-DB8D-43AF-959A-5DD9C700B1FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FA76A33-DB8D-43AF-959A-5DD9C700B1FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FA76A33-DB8D-43AF-959A-5DD9C700B1FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FA76A33-DB8D-43AF-959A-5DD9C700B1FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

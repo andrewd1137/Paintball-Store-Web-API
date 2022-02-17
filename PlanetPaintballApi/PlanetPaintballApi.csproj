@@ -10,4 +10,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PlanetPaintballBL\PlanetPaintballBL.csproj" />
+    <ProjectReference Include="..\PlanetPaintballDL\PlanetPaintballDL.csproj" />
+    <ProjectReference Include="..\PlanetPaintballModel\PlanetPaintballModel.csproj" />
+  </ItemGroup>
+
 </Project>
