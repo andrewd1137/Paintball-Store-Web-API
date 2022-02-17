@@ -1,3 +1,4 @@
+using PPBL;
 using PPDL;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IRepository>(repo => new SQLRepository());
+builder.Services.AddScoped<IRepository>(repo => new SQLRepository(builder.Configuration.GetConnectionString("Reference2DB")));
+builder.Services.AddScoped<IPlanetPaintballBL, PlanetPaintballBL>();
 
 var app = builder.Build();
 
