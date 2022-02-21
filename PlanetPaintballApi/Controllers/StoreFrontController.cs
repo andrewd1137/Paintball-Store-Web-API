@@ -39,8 +39,8 @@ namespace PlanetPaintballApi.Controllers
         }
 
         // GET: api/StoreFront/5
-        [HttpGet("address/{storeAddress}")]
-        public IActionResult GetStoreInventory(string storeAddress)
+        [HttpGet]
+        public IActionResult GetStoreInventory([FromQuery] string storeAddress)
         {
             try
             {   _planetPaintballStoresBL.ViewInventory(storeAddress);
@@ -52,10 +52,21 @@ namespace PlanetPaintballApi.Controllers
             }
         }
 
+
+
         // POST: api/StoreFront
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("ReplenishInventory")]
+        public IActionResult Post(int p_storeID, int p_productID, int p_quantity)
         {
+            try
+            {
+                _planetPaintballStoresBL.UpdateInventory(p_storeID, p_productID, p_quantity);
+                return Ok();
+            }
+            catch(SqlException)
+            {
+                return NotFound();
+            }
         }
 
         // PUT: api/StoreFront/5

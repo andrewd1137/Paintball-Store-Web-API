@@ -70,14 +70,14 @@ namespace PPDL
         /// </summary>
         /// <param name="p_order"></param>
         /// <returns></returns>
-        LineItems MakeOrder(LineItems p_lineItems, int quantityOrdered);
+        LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int quantityOrdered);
 
         /// <summary>
         /// will replenish the inventory for a product.
         /// </summary>
         /// <param name="p_productID"></param>
         /// <param name="p_quantity"></param>
-        void UpdateInventory(int p_productID, int p_quantity);
+        void UpdateInventory(int p_storeID, int p_productID, int p_quantity);
 
         /// <summary>
         /// used to test to see if user can buy this amount of items

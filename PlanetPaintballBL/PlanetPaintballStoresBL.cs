@@ -48,9 +48,9 @@ namespace PPBL
             return _repo.GetProductsByStoreAddress(p_address);
         }
 
-        public void UpdateInventory(int p_productID, int p_quantity)
+        public void UpdateInventory(int p_storeID, int p_productID, int p_quantity)
         {
-            _repo.UpdateInventory(p_productID, p_quantity);
+            _repo.UpdateInventory(p_storeID, p_productID, p_quantity);
         }
 
         public List<Products> ViewOrder(int p_productID, string p_address)
@@ -63,9 +63,9 @@ namespace PPBL
 
         }
 
-        public LineItems MakeOrder(LineItems p_lineItems, int quantity)
+        public LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int quantity)
         {
-            return _repo.MakeOrder(p_lineItems, quantity);
+            return _repo.MakeOrder(p_storeID, p_lineItems, quantity);
         }
 
         public List<Orders> GetOrders(string searchMode, string searchedString)

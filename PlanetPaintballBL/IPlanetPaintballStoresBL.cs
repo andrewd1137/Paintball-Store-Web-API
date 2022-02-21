@@ -26,7 +26,7 @@ namespace PPBL
         /// </summary>
         /// <param name="p_productID"></param>
         /// <param name="p_quantity"></param>
-        void UpdateInventory(int p_productID, int p_quantity);
+        void UpdateInventory(int p_storeID, int p_productID, int p_quantity);
 
         /// <summary>
         /// will view the product from an order
@@ -47,7 +47,7 @@ namespace PPBL
         /// will make the order of the items the customer has ordered
         /// </summary>
         /// <param name="newOrder"></param>
-        LineItems MakeOrder(LineItems p_lineItems, int orderID);
+        LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int orderID);
 
         /// <summary>
         /// will get the orders of either a store or customer based on their search mode

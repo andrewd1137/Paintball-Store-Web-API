@@ -196,7 +196,7 @@ namespace PPDL
             
         }
 
-        public LineItems MakeOrder(LineItems p_lineItems, int p_orderID)
+        public LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int p_orderID)
         {         
             //get the quantity from the database and see if that you have that many items in stock to buy
             string sqlQuery = @"select sfp.quantity from storeFront_product sfp
@@ -225,7 +225,7 @@ namespace PPDL
                     //This will make the value of the quantity the same number with a negative in front of it.
                     //That way we will take away the number from the total, allows us to reuse the code used to replenish, only instead we are taking away the value since it's now negative.
                     int subtractFromTotalInventory = 0 - p_lineItems.ProductQuantity;
-                    UpdateInventory(p_lineItems.ProductID, subtractFromTotalInventory);
+                    UpdateInventory(p_storeID, p_lineItems.ProductID, subtractFromTotalInventory);
                 }
                 else
                 {
@@ -263,11 +263,11 @@ namespace PPDL
             return p_order;
         }
 
-        public void UpdateInventory(int p_productID, int p_quantity)
+        public void UpdateInventory(int p_storeID, int p_productID, int p_quantity)
         {
             int tempQuantity = 0;
             string sqlQuery = @"select sfp.quantity from storeFront_product sfp
-                            where sfp.productID = @productID";
+                            where sfp.productID = @productID and sfp.storeId = @storeID";
             
             using(SqlConnection con = new SqlConnection(_connectionStrings))
             {
@@ -276,6 +276,7 @@ namespace PPDL
 
                 SqlCommand command = new SqlCommand(sqlQuery, con);
                 command.Parameters.AddWithValue("@productID", p_productID);
+                command.Parameters.AddWithValue("@storeID", p_storeID);
                 
                 SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -289,7 +290,7 @@ namespace PPDL
             
             sqlQuery = @"update storeFront_product
                         set quantity = @quantity
-                        where productID = @productID";
+                        where productID = @productID and storeId = @storeID";
 
             using(SqlConnection con = new SqlConnection(_connectionStrings))
             {
@@ -298,6 +299,7 @@ namespace PPDL
                 SqlCommand command= new SqlCommand(sqlQuery, con);
                 command.Parameters.AddWithValue("@quantity", tempQuantity);
                 command.Parameters.AddWithValue("@productID", p_productID);
+                command.Parameters.AddWithValue("@storeID", p_storeID);
 
                 command.ExecuteNonQuery();
             }
