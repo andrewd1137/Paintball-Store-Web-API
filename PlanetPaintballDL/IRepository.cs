@@ -72,6 +72,8 @@ namespace PPDL
         /// <returns></returns>
         LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int quantityOrdered);
 
+        Orders MakeAnOrder(Orders p_order);
+
         /// <summary>
         /// will replenish the inventory for a product.
         /// </summary>

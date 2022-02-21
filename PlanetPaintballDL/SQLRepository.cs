@@ -258,6 +258,69 @@ namespace PPDL
 
         }
 
+        public Orders MakeAnOrder(Orders p_order)
+        {
+            for(int index = 0; index<p_order.LineItems.Count; index++)
+            {
+                //get the quantity from the database and see if that you have that many items in stock to buy
+                string sqlQuery = @"select sfp.quantity from storeFront_product sfp
+                                where sfp.productID = @productID";
+
+                //make a temp quantity to store that value for later
+                int tempQuantity = 0;
+                
+                using(SqlConnection con = new SqlConnection(_connectionStrings))
+                {
+
+                    con.Open();
+
+                    SqlCommand command = new SqlCommand(sqlQuery, con);
+                    command.Parameters.AddWithValue("@productID", p_order.LineItems[index].ProductID);
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        tempQuantity = reader.GetInt32(0);
+                    }
+
+                    tempQuantity = tempQuantity - p_order.LineItems[index].ProductQuantity;
+                    if(tempQuantity >= 0)
+                    {
+                        //This will make the value of the quantity the same number with a negative in front of it.
+                        //That way we will take away the number from the total, allows us to reuse the code used to replenish, only instead we are taking away the value since it's now negative.
+                        int subtractFromTotalInventory = 0 - p_order.LineItems[index].ProductQuantity;
+                        UpdateInventory(p_order.StoreID, p_order.LineItems[index].ProductID, subtractFromTotalInventory);
+                    }
+                    else
+                    {
+                        Exception exc = new Exception("Cannot purchase more items than the store has available!");
+                        return p_order;
+                    }
+                
+                }
+
+                //now that we know the items can be purchased, we will now add them to the line items table and then get the total price.
+                sqlQuery = @"insert into LineItems
+                            values(@orderID, @productID, @quantity)";
+
+                using(SqlConnection con = new SqlConnection(_connectionStrings))
+                {
+
+                    con.Open();
+
+                    SqlCommand command = new SqlCommand(sqlQuery, con);
+                    command.Parameters.AddWithValue("@orderID", p_order.OrderID);
+                    command.Parameters.AddWithValue("@productID", p_order.LineItems[index].ProductID);
+                    command.Parameters.AddWithValue("@quantity", p_order.LineItems[index].ProductQuantity);
+
+                    //execute the SQL statement
+                    command.ExecuteNonQuery();
+
+                }
+            }
+            return p_order;
+        }
+
         public Orders GetOrders(Orders p_order)
         {
             return p_order;
@@ -359,7 +422,7 @@ namespace PPDL
         {
             List<Orders> listOfOrders = new List<Orders>();
 
-            string sqlQuery = @"select o.orderID, o.customerID, c.customerEmail, o.storeFrontID, s.storeFrontName, o.totalSpent from Orders o
+            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID, from Orders o
                                 inner join Customer c on o.customerID = c.customerID
                                 inner join StoreFront s on s.storeFrontID = o.storeFrontID";
 
@@ -383,10 +446,7 @@ namespace PPDL
 
                         OrderID = reader.GetInt32(0),
                         CustomerID = reader.GetInt32(1),
-                        customerEmail = reader.GetString(2),
-                        StoreID = reader.GetInt32(3),
-                        storeFrontName = reader.GetString(4),
-                        orderTotalCost = reader.GetDecimal(5)
+                        StoreID = reader.GetInt32(2)
                         
                     });
 

@@ -3,17 +3,13 @@ namespace PPModel
 
     public class Orders
     {
-        public int OrderID;
+        public int OrderID {get; set;}
 
-        public int CustomerID;
-
-        public string customerEmail;
+        public int CustomerID {get; set;}
     
-        public int StoreID;
+        public int StoreID {get; set;}
 
-        public string storeFrontName;
-
-        public decimal orderTotalCost;
+        public decimal orderTotalCost {get; set;}
 
         private List<LineItems> _lineItems;
         public List<LineItems> LineItems
@@ -33,7 +29,7 @@ namespace PPModel
         //string version of the object
         public override string ToString()
         {
-            return $"=====================\nOrder ID: {OrderID}\nCustomer ID: {CustomerID}\nCustomer Email: {customerEmail}\nStore ID: {StoreID}\nStore Front Name: {storeFrontName}\nTotal Spent: ${orderTotalCost.ToString("0.00")}\n=====================\n";
+            return $"=====================\nOrder ID: {OrderID}\nCustomer ID: {CustomerID}\nStore ID: {StoreID}\n=====================\n";
         }
 
     }

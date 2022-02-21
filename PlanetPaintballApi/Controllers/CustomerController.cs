@@ -38,7 +38,7 @@ namespace PlanetPaintballApi.Controllers
         }   
 
         //GET: api/Customer/5
-        [HttpGet]
+        [HttpGet("SearchCustomer")]
         public IActionResult GetCustomer([FromQuery] string customerInfo)
         {
             try

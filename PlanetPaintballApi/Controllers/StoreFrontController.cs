@@ -39,11 +39,13 @@ namespace PlanetPaintballApi.Controllers
         }
 
         // GET: api/StoreFront/5
-        [HttpGet]
+        //gets the inventory of a store by the address
+        [HttpGet("GetStoreInventory")]
         public IActionResult GetStoreInventory([FromQuery] string storeAddress)
         {
             try
-            {   _planetPaintballStoresBL.ViewInventory(storeAddress);
+            {   
+                _planetPaintballStoresBL.ViewInventory(storeAddress);
                 return Ok(_planetPaintballStoresBL.GetProductsByStoreAddress(storeAddress));
             }
             catch (SqlException)
@@ -52,11 +54,22 @@ namespace PlanetPaintballApi.Controllers
             }
         }
 
-
+        [HttpGet("ViewOrderHistory")]
+        public IActionResult ViewOrderHistory([FromQuery] string searchedString)
+        {
+            try
+            {   
+                return Ok(_planetPaintballStoresBL.GetOrders(searchedString));
+            }
+            catch (SqlException)
+            {
+                return NotFound();
+            }
+        }
 
         // POST: api/StoreFront
         [HttpPost("ReplenishInventory")]
-        public IActionResult Post(int p_storeID, int p_productID, int p_quantity)
+        public IActionResult ReplenishInventory(int p_storeID, int p_productID, int p_quantity)
         {
             try
             {
@@ -66,6 +79,20 @@ namespace PlanetPaintballApi.Controllers
             catch(SqlException)
             {
                 return NotFound();
+            }
+        }
+
+        [HttpPost("PlaceOrder")]
+        public IActionResult PlaceAnOrder(Orders p_order)
+        {
+            try
+            {
+                _planetPaintballStoresBL.StartOrder(p_order);
+                return Created("Successfully placed order",_planetPaintballStoresBL.MakeAnOrder(p_order));
+            }
+            catch(System.Exception ex)
+            {
+                return Conflict(ex.Message);
             }
         }
 

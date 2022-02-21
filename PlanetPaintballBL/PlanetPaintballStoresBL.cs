@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using PPDL;
 using PPModel;
 
@@ -50,7 +51,7 @@ namespace PPBL
 
         public void UpdateInventory(int p_storeID, int p_productID, int p_quantity)
         {
-            _repo.UpdateInventory(p_storeID, p_productID, p_quantity);
+        _repo.UpdateInventory(p_storeID, p_productID, p_quantity);
         }
 
         public List<Products> ViewOrder(int p_productID, string p_address)
@@ -68,7 +69,12 @@ namespace PPBL
             return _repo.MakeOrder(p_storeID, p_lineItems, quantity);
         }
 
-        public List<Orders> GetOrders(string searchMode, string searchedString)
+        public Orders MakeAnOrder(Orders p_order)
+        {
+            return _repo.MakeAnOrder(p_order);
+        }
+
+        public List<Orders> GetOrders(string searchedString)
         {
 
             List<Customer> listOfCustomer = _repo.GetAllCustomers();
@@ -76,7 +82,7 @@ namespace PPBL
             List<Orders> listOfOrders = _repo.GetAllOrders();
 
             //search by the customer
-            if(searchMode == "email")
+            if(Regex.IsMatch(searchedString, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$") == true)
             {
                 var found = listOfCustomer.Find(p => p.Email == searchedString);
                     if(found != null)
@@ -93,7 +99,7 @@ namespace PPBL
             }
 
             //search by the store
-            else if(searchMode == "storeAddress")
+            else if(Regex.IsMatch(searchedString, @"^[#.0-9a-zA-Z\s,-]+$") == true)
             {
 
                 var found = listOfStores.Find(p => p.Address == searchedString);
@@ -111,12 +117,7 @@ namespace PPBL
                     throw new Exception("A store with this address has not been found.");
                 }
 
-            }
-            
-            //If trying to add new search ways and this error ever happens, 
-            //make sure that you typed the searchMode string correctly in the the ViewOrdersHistoryMenu.
-            //Otherwise if strings in this searchMode match the string passed by the menu, then this
-            //exception should never run unless user's pc is messed up. 
+            } 
             else
             {
                 throw new Exception("Could not search! Some error has occurred. Try restarting program.");
