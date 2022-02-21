@@ -1,5 +1,6 @@
 using PPDL;
 using PPModel;
+using System.Text.RegularExpressions;
 
 namespace PPBL
 {
@@ -16,7 +17,20 @@ namespace PPBL
 
             public Customer AddCustomer(Customer p_customer)
             {
-                
+                //Check simple regex for customer name, address and email
+                if(Regex.IsMatch(p_customer.Name, @"^[a-z A-Z]+$") == false)
+                {
+                    throw new Exception("Invalid entry for customer name. Cannot include illegal characters.");
+                }
+                if(Regex.IsMatch(p_customer.Address, @"^[#.0-9a-zA-Z\s,-]+$") == false)
+                {
+                    throw new Exception("Invalid entry for customer address. Cannot include illegal characters.");
+                }
+                if(Regex.IsMatch(p_customer.Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$") == false)
+                {
+                    throw new Exception("Invalid entry for customer email. Cannot include illegal characters.");
+                }
+
                 //get the list of customers and then add a new customer to the list
                 List<Customer> listOfCustomers = _repo.GetAllCustomers();
                 var found = listOfCustomers.Find(p => p.Email == p_customer.Email);

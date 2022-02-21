@@ -72,7 +72,7 @@ namespace PPUI
                     string lastName = Console.ReadLine();
                     Log.Information("User has entered in a last name.");
                     failedAttempts = 0;
-                    while((Regex.IsMatch(lastName, @"^[a-zA-Z]+$") == false))
+                    while((Regex.IsMatch(lastName, @"^[a-z A-Z]+$") == false))
                     {
                         if(failedAttempts > 2)
                         {   
