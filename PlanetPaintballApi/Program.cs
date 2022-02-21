@@ -11,6 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRepository>(repo => new SQLRepository(builder.Configuration.GetConnectionString("Reference2DB")));
 builder.Services.AddScoped<IPlanetPaintballBL, PlanetPaintballBL>();
+builder.Services.AddScoped<IPlanetPaintballStoresBL, PlanetPaintballStoresBL>();
 
 var app = builder.Build();
 

@@ -50,20 +50,20 @@ namespace PPBL
             return _repo.GetAllCustomers();
         }
 
-        public List<Customer> SearchCustomer(string searchMode, string p_string)
+        public List<Customer> SearchCustomer(string p_customerInfo)
         {
             List<Customer> listOfCustomers = _repo.GetAllCustomers();
             
-            //search by name (mode will = name) 
-            if(searchMode == "name")
+            //will search for a customer by name if the regex for name matches 
+            if(Regex.IsMatch(p_customerInfo, @"^[a-z A-Z]+$") == true)
             {
 
-                var found = listOfCustomers.Find(p => p.Name.Contains(p_string));
+                var found = listOfCustomers.Find(p => p.Name.Contains(p_customerInfo));
                 if(found != null)
                 {
                     //validation process using LINQ Library
                     return listOfCustomers
-                            .Where(customer => customer.Name.Contains(p_string))
+                            .Where(customer => customer.Name.Contains(p_customerInfo))
                             .ToList();
                 }
                 else
@@ -73,16 +73,16 @@ namespace PPBL
 
             }
             
-            //search by email (mode will = email)
-            else if(searchMode == "email")
+            //will search for a customer by email if the regex for email matches
+            else if(Regex.IsMatch(p_customerInfo, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$") == true)
             {
 
-                var found = listOfCustomers.Find(p => p.Email == p_string);
+                var found = listOfCustomers.Find(p => p.Email == p_customerInfo);
                 if(found != null)
                 {
                     //validation process using LINQ Library
                     return listOfCustomers
-                            .Where(customer => customer.Email.Equals(p_string))
+                            .Where(customer => customer.Email.Equals(p_customerInfo))
                             .ToList();
                 }
                 else
@@ -102,41 +102,6 @@ namespace PPBL
             }
             
         }
-
-        public List<Customer> SearchCustomerByName(string p_customerName)
-        {
-            List<Customer> listOfCustomers = _repo.GetAllCustomers();
-            var found = listOfCustomers.Find(p => p.Name.Contains(p_customerName));
-            if(found != null)
-            {
-                //validation process using LINQ Library
-                return listOfCustomers
-                        .Where(customer => customer.Name.Contains(p_customerName))
-                        .ToList();
-            }
-            else
-            {
-                throw new Exception("A customer with this name has not been found.");
-            }
-        }
-
-        public List<Customer> SearchCustomerByEmail(string p_customerEmail)
-        {
-            List<Customer> listOfCustomers = _repo.GetAllCustomers();
-            var found = listOfCustomers.Find(p => p.Email == p_customerEmail);
-            if(found != null)
-            {
-                //validation process using LINQ Library
-                return listOfCustomers
-                        .Where(customer => customer.Email.Equals(p_customerEmail))
-                        .ToList();
-            }
-            else
-            {
-                throw new Exception("A customer with this Email has not been found.");
-            }
-        }
-
 
     }
 

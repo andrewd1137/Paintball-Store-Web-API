@@ -39,37 +39,11 @@ namespace PlanetPaintballApi.Controllers
 
         //GET: api/Customer/5
         [HttpGet("{customerInfo}")]
-        public IActionResult GetCustomer(string searchMode, string customerInfo)
+        public IActionResult GetCustomer(string customerInfo)
         {
             try
             {
-                return Ok(_planetPaintballBL.SearchCustomer(searchMode, customerInfo));
-            }
-            catch (SqlException)
-            {
-                return NotFound();
-            }
-        }
-
-        [HttpGet("name/{customerName}")]
-        public IActionResult GetCustomerByName(string customerName)
-        {
-            try
-            {
-                return Ok(_planetPaintballBL.SearchCustomerByName(customerName));
-            }
-            catch (SqlException)
-            {
-                return NotFound();
-            }
-        }
-
-        [HttpGet("email/{customerEmail}")]
-        public IActionResult GetCustomerByEmail(string customerEmail)
-        {
-            try
-            {
-                return Ok(_planetPaintballBL.SearchCustomerByEmail(customerEmail));
+                return Ok(_planetPaintballBL.SearchCustomer(customerInfo));
             }
             catch (SqlException)
             {
