@@ -103,6 +103,21 @@ namespace PPBL
             
         }
 
+        public List<Customer> VerifyCustomer(string p_customerEmail, string p_customerPassword)
+        {
+            List<Customer> listOfCustomers = _repo.GetAllCustomers();
+            var found = listOfCustomers.Find(p => p.Email.Equals(p_customerEmail) && p.Password.Equals(p_customerPassword));
+            if(found != null)
+            {
+                return listOfCustomers
+                        .Where(customer => customer.Email.Equals(p_customerEmail) && customer.Password.Equals(p_customerPassword))
+                        .ToList();
+            }
+            else
+            {
+                throw new Exception("Could not find customer with these credentials!");
+            }
+        }
     }
 
 }

@@ -65,7 +65,8 @@ namespace PPDL
                         ID = reader.GetInt32(0),
                         Name = reader.GetString(1),
                         Address = reader.GetString(2),
-                        Email = reader.GetString(3)
+                        Email = reader.GetString(3),
+                        Password = reader.GetString(4)
                     });
 
                 }
@@ -260,14 +261,18 @@ namespace PPDL
 
         public Orders MakeAnOrder(Orders p_order)
         {
+            decimal cartTotal = 0M; 
+
             for(int index = 0; index<p_order.LineItems.Count; index++)
             {
                 //get the quantity from the database and see if that you have that many items in stock to buy
-                string sqlQuery = @"select sfp.quantity from storeFront_product sfp
-                                where sfp.productID = @productID";
+                string sqlQuery = @"select sfp.quantity, p.productPrice from Product p
+                                    inner join storeFront_product sfp  on p.productID = sfp.productID 
+                                    where sfp.productID = @productID and sfp.storeId = @storeID";
 
-                //make a temp quantity to store that value for later
+                //make a temp quantity and cost to store the values for later
                 int tempQuantity = 0;
+                decimal tempCost = 0;
                 
                 using(SqlConnection con = new SqlConnection(_connectionStrings))
                 {
@@ -276,11 +281,13 @@ namespace PPDL
 
                     SqlCommand command = new SqlCommand(sqlQuery, con);
                     command.Parameters.AddWithValue("@productID", p_order.LineItems[index].ProductID);
+                    command.Parameters.AddWithValue("@storeID", p_order.StoreID);
 
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         tempQuantity = reader.GetInt32(0);
+                        tempCost = reader.GetDecimal(1);
                     }
 
                     tempQuantity = tempQuantity - p_order.LineItems[index].ProductQuantity;
@@ -290,6 +297,7 @@ namespace PPDL
                         //That way we will take away the number from the total, allows us to reuse the code used to replenish, only instead we are taking away the value since it's now negative.
                         int subtractFromTotalInventory = 0 - p_order.LineItems[index].ProductQuantity;
                         UpdateInventory(p_order.StoreID, p_order.LineItems[index].ProductID, subtractFromTotalInventory);
+                        cartTotal = cartTotal + p_order.LineItems[index].ProductQuantity * tempCost;
                     }
                     else
                     {
@@ -317,6 +325,25 @@ namespace PPDL
                     command.ExecuteNonQuery();
 
                 }
+
+                //now that we know the total cost, update the total cost in the orders table.
+                sqlQuery = @"UPDATE Orders
+                            set totalSpent = @cartTotal
+                            where orderID = (select max(o.orderID) from Orders o)";
+
+                using(SqlConnection con = new SqlConnection(_connectionStrings))
+                {
+
+                    con.Open();
+
+                    SqlCommand command = new SqlCommand(sqlQuery, con);
+                    command.Parameters.AddWithValue("@cartTotal", cartTotal);
+        
+                    //execute the SQL statement
+                    command.ExecuteNonQuery();
+
+                }
+
             }
             return p_order;
         }
@@ -422,7 +449,7 @@ namespace PPDL
         {
             List<Orders> listOfOrders = new List<Orders>();
 
-            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID, from Orders o
+            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID from Orders o
                                 inner join Customer c on o.customerID = c.customerID
                                 inner join StoreFront s on s.storeFrontID = o.storeFrontID";
 

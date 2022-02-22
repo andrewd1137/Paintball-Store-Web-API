@@ -51,6 +51,19 @@ namespace PlanetPaintballApi.Controllers
             }
         }
 
+        [HttpGet("VerifyCustomerCredentials")]
+        public IActionResult GetCustomerCredentials([FromQuery] string customerEmail, string customerPassword)
+        {
+            try
+            {
+                return Ok(_planetPaintballBL.VerifyCustomer(customerEmail, customerPassword));
+            }
+            catch (SqlException)
+            {
+                return NotFound();
+            }
+        }
+
         // POST: api/Customer
         [HttpPost("AddCustomer")]
         public IActionResult Post([FromBody] Customer p_customer)
