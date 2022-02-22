@@ -1,0 +1,43 @@
+name: .NET
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    environment:
+      name: 'Production'
+      
+    defaults:
+      run:
+        working-directory: /Andrew-DeMarco-P1
+      
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build
+      
+    # creating publish forlder to use
+    - name: Create Publish Folder
+      run: dotnet publish -c Release -o publish
+      
+    - name: Deploy
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: PPDBWebApp
+        slot-name: 'Production'
+        publish-profile: $${{secrets.PPDB_Web_App_Publish_Profile}}
+        package: /Andrew-DeMarco-P1/Publish
