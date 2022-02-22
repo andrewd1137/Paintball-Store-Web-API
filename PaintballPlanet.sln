@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetPaintballModel", "PlanetPaintballModel\PlanetPaintballModel.csproj", "{96AFAB9E-00B2-4318-9659-35B943844B13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetPaintballUI", "PlanetPaintballUI\PlanetPaintballUI.csproj", "{8686E2D5-1571-4540-8765-35F8BAD43523}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetPaintballBL", "PlanetPaintballBL\PlanetPaintballBL.csproj", "{428DAB48-1A4A-4300-ACF2-866F94282751}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanetPaintballDL", "PlanetPaintballDL\PlanetPaintballDL.csproj", "{9001702E-1922-4BDB-AAD5-F4F638D2AFF8}"
