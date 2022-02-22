@@ -80,13 +80,28 @@ namespace PPBL
             List<Customer> listOfCustomer = _repo.GetAllCustomers();
             List<StoreFront> listOfStores = _repo.GetStoreFronts();
             List<Orders> listOfOrders = _repo.GetAllOrders();
+            List<LineItems> listOfLineItems = _repo.GetAllLineItems();
 
             //search by the customer email
-            if(Regex.IsMatch(searchedString, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$") == true)
+            if(Regex.IsMatch(searchedString, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
             {
                 var found = listOfCustomer.Find(p => p.Email == searchedString);
                     if(found != null)
                     {
+
+                        // //***needs work***
+                        // //will add each of the line items to the orders history for customer.
+                        // foreach(Orders orderItem in listOfOrders)
+                        // {
+                        //     foreach(LineItems item in listOfLineItems)
+                        //     {
+                        //         if(item.OrderID == orderItem.OrderID)
+                        //         {
+                        //             orderItem.LineItems.Add(item);
+                        //         }
+                        //     }
+                        // }
+
                         //validation process using LINQ Library
                         return listOfOrders
                                 .Where(customer => customer.CustomerID.Equals(found.ID))
@@ -99,7 +114,7 @@ namespace PPBL
             }
 
             //search by the store
-            else if(Regex.IsMatch(searchedString, @"^[#.0-9a-zA-Z\s,-]+$") == true)
+            else if(Regex.IsMatch(searchedString, @"^[#.0-9a-zA-Z\s,-]+$"))
             {
 
                 var found = listOfStores.Find(p => p.Address == searchedString);

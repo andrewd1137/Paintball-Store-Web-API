@@ -72,6 +72,11 @@ namespace PPDL
         /// <returns></returns>
         LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int quantityOrdered);
 
+        /// <summary>
+        /// controller version for adding products customer ordered
+        /// </summary>
+        /// <param name="p_order"></param>
+        /// <returns></returns>
         Orders MakeAnOrder(Orders p_order);
 
         /// <summary>
@@ -87,6 +92,13 @@ namespace PPDL
         /// <param name="p_lineItems"></param>
         /// <returns></returns>
         Boolean TestQuantity(int itemID, int itemQuantity);
+
+        /// <summary>
+        /// used to get all the line items for an order.
+        /// </summary>
+        /// <returns></returns>
+        List<LineItems> GetAllLineItems();
+
     }
 
 

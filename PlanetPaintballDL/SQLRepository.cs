@@ -445,6 +445,42 @@ namespace PPDL
             return listOfProducts;
         }
 
+        public List<LineItems> GetAllLineItems()
+        {
+            List<LineItems> listOfLineItems = new List<LineItems>();
+
+            string sqlQuery = @"select * from LineItems";
+
+            using (SqlConnection con = new SqlConnection(_connectionStrings))
+            {
+
+                //open the connection
+                con.Open();
+
+                //command object that has our query and con obj
+                SqlCommand command = new SqlCommand(sqlQuery, con);
+
+                //read outputs from sql statement using special class
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+
+                    listOfLineItems.Add(new LineItems()
+                    {
+                        OrderID = reader.GetInt32(0),
+                        ProductID = reader.GetInt32(1),
+                        ProductQuantity = reader.GetInt32(2)   
+                    });
+
+                }
+
+            }
+
+            return listOfLineItems;
+
+        }
+
         public List<Orders> GetAllOrders()
         {
             List<Orders> listOfOrders = new List<Orders>();

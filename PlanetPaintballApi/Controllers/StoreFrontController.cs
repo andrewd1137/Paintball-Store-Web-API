@@ -57,14 +57,14 @@ namespace PlanetPaintballApi.Controllers
         [HttpGet("ViewOrderHistory")]
         public IActionResult ViewOrderHistory([FromQuery] string searchedString)
         {
-            // try
-            // {   
+            try
+            {   
                 return Ok(_planetPaintballStoresBL.GetOrders(searchedString));
-            //}
-            // catch (SqlException)
-            // {
-            //     return NotFound();
-            // }
+            }
+            catch (SqlException)
+            {
+                return NotFound();
+            }
         }
 
         // POST: api/StoreFront

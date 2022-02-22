@@ -56,7 +56,8 @@ namespace PlanetPaintballApi.Controllers
         {
             try
             {
-                return Ok(_planetPaintballBL.VerifyCustomer(customerEmail, customerPassword));
+                _planetPaintballBL.VerifyCustomer(customerEmail, customerPassword);
+                return Ok();
             }
             catch (SqlException)
             {

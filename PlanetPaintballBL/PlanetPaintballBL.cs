@@ -55,7 +55,7 @@ namespace PPBL
             List<Customer> listOfCustomers = _repo.GetAllCustomers();
             
             //will search for a customer by name if the regex for name matches 
-            if(Regex.IsMatch(p_customerInfo, @"^[a-z A-Z]+$") == true)
+            if(Regex.IsMatch(p_customerInfo, @"^[a-z A-Z]+$"))
             {
 
                 var found = listOfCustomers.Find(p => p.Name.Contains(p_customerInfo));
@@ -74,7 +74,7 @@ namespace PPBL
             }
             
             //will search for a customer by email if the regex for email matches
-            else if(Regex.IsMatch(p_customerInfo, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$") == true)
+            else if(Regex.IsMatch(p_customerInfo, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
             {
 
                 var found = listOfCustomers.Find(p => p.Email == p_customerInfo);
