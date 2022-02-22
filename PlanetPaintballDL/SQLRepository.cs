@@ -16,7 +16,7 @@ namespace PPDL
         {
 
             string sqlQuery = @"insert into Customer
-                                values(@customerName, @customerAddress, @customerEmail)";
+                                values(@customerName, @customerAddress, @customerEmail, @customerPassword)";
         
             using(SqlConnection con = new SqlConnection(_connectionStrings))
             {
@@ -28,6 +28,7 @@ namespace PPDL
                 command.Parameters.AddWithValue("@customerName", p_customer.Name);
                 command.Parameters.AddWithValue("@customerAddress", p_customer.Address);
                 command.Parameters.AddWithValue("@customerEmail", p_customer.Email);
+                command.Parameters.AddWithValue("@customerPassword", p_customer.Password);
 
                 //execute the SQL statement
                 command.ExecuteNonQuery();
