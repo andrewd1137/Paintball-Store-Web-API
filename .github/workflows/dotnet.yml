@@ -15,7 +15,7 @@ jobs:
       
     defaults:
       run:
-        working-directory: /Andrew-DeMarco-P1
+        working-directory: Andrew-DeMarco-P1
       
     steps:
     - uses: actions/checkout@v2
@@ -40,4 +40,4 @@ jobs:
         app-name: PPDBWebApp
         slot-name: 'Production'
         publish-profile: $${{secrets.PPDB_Web_App_Publish_Profile}}
-        package: /Andrew-DeMarco-P1/Publish
+        package: Andrew-DeMarco-P1/Publish
