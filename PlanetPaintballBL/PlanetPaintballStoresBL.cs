@@ -81,7 +81,7 @@ namespace PPBL
             List<StoreFront> listOfStores = _repo.GetStoreFronts();
             List<Orders> listOfOrders = _repo.GetAllOrders();
 
-            //search by the customer
+            //search by the customer email
             if(Regex.IsMatch(searchedString, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$") == true)
             {
                 var found = listOfCustomer.Find(p => p.Email == searchedString);
