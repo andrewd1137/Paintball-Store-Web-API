@@ -99,8 +99,18 @@ namespace PPDL
         /// <returns></returns>
         List<LineItems> GetAllLineItems();
 
+        /// <summary>
+        /// will get all the managers from the manager table in the database
+        /// </summary>
+        /// <returns></returns>
         List<Manager> GetAllManagers();
 
+        /// <summary>
+        /// will delete an order from the orders table in the database
+        /// </summary>
+        /// <param name="p_order"></param>
+        /// <returns></returns>
+        Orders DeleteOrder(Orders p_order);
     }
 
 

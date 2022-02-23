@@ -166,6 +166,11 @@ namespace PPBL
             }
 
         }
+
+        public Orders DeleteOrder(Orders p_order)
+        {
+            return _repo.DeleteOrder(p_order);
+        }
     }
 
 }

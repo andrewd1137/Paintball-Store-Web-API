@@ -81,6 +81,13 @@ namespace PPBL
         /// <param name="itemQuantity"></param>
         /// <returns></returns>
         Boolean TestQuantity(int itemID, int itemQuantity);
+
+        /// <summary>
+        /// will delete the order from the database
+        /// </summary>
+        /// <param name="p_order"></param>
+        /// <returns></returns>
+        Orders DeleteOrder(Orders p_order);
     }
 
 }

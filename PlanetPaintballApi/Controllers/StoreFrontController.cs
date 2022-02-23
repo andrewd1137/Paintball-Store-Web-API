@@ -101,6 +101,7 @@ namespace PlanetPaintballApi.Controllers
             }
             catch(System.Exception ex)
             {
+                _planetPaintballStoresBL.DeleteOrder(p_order);
                 return Conflict(ex.Message);
             }
         }

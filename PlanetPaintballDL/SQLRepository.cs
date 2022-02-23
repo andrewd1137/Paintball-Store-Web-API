@@ -302,12 +302,11 @@ namespace PPDL
                     }
                     else
                     {
-                        Exception exc = new Exception("Cannot purchase more items than the store has available!");
-                        return p_order;
+                        throw new Exception("Cannot purchase more items than the store has available!");
                     }
                 
                 }
-
+                
                 //now that we know the items can be purchased, we will now add them to the line items table and then get the total price.
                 sqlQuery = @"insert into LineItems
                             values(@orderID, @productID, @quantity)";
@@ -558,6 +557,27 @@ namespace PPDL
             }
 
             return listOfManagers;
+        }
+
+        public Orders DeleteOrder(Orders p_order)
+        {
+            //insert the values into orders table
+            string sqlQuery = @"delete from Orders where orderID = @orderID";
+
+            using(SqlConnection con = new SqlConnection(_connectionStrings))
+            {
+
+                con.Open();
+
+                SqlCommand command = new SqlCommand(sqlQuery, con);
+                command.Parameters.AddWithValue("@orderID", p_order.OrderID);
+
+                //execute the SQL statement
+                command.ExecuteNonQuery();
+
+            }
+
+            return p_order;
         }
     }
 }
