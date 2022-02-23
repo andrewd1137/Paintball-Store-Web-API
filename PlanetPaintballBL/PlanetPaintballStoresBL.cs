@@ -149,6 +149,23 @@ namespace PPBL
         {
             return _repo.TestQuantity(p_id, p_quantity);
         }
+
+        public bool VerifyManager(string p_managerEmail, string p_managerPassword, int p_storeID)
+        {
+
+            List<Manager> listOfManagers = _repo.GetAllManagers();
+
+            var found = listOfManagers.Find(p => p.Email.Equals(p_managerEmail) && p.Password.Equals(p_managerPassword) && p.storeID.Equals(p_storeID));
+            if(found != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
     }
 
 }

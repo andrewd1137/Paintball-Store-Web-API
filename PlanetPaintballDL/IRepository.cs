@@ -99,6 +99,8 @@ namespace PPDL
         /// <returns></returns>
         List<LineItems> GetAllLineItems();
 
+        List<Manager> GetAllManagers();
+
     }
 
 

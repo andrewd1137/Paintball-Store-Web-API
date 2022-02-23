@@ -486,7 +486,7 @@ namespace PPDL
         {
             List<Orders> listOfOrders = new List<Orders>();
 
-            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID from Orders o
+            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID, o.totalSpent from Orders o
                                 inner join Customer c on o.customerID = c.customerID
                                 inner join StoreFront s on s.storeFrontID = o.storeFrontID";
 
@@ -510,7 +510,8 @@ namespace PPDL
 
                         OrderID = reader.GetInt32(0),
                         CustomerID = reader.GetInt32(1),
-                        StoreID = reader.GetInt32(2)
+                        StoreID = reader.GetInt32(2),
+                        orderTotalCost = reader.GetDecimal(3)
                         
                     });
 
@@ -521,5 +522,42 @@ namespace PPDL
             return listOfOrders;
         }
 
+        public List<Manager> GetAllManagers()
+        {
+            List<Manager> listOfManagers = new List<Manager>();
+
+            string sqlQuery = @"select * from StoreManager";
+
+            using (SqlConnection con = new SqlConnection(_connectionStrings))
+            {
+
+                //open the connection
+                con.Open();
+
+                //command object that has our query and con obj
+                SqlCommand command = new SqlCommand(sqlQuery, con);
+
+                //read outputs from sql statement using special class
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+
+                    listOfManagers.Add(new Manager()
+                    {
+                        ID = reader.GetInt32(0),
+                        storeID = reader.GetInt32(1),
+                        Name = reader.GetString(2),
+                        Address = reader.GetString(3),
+                        Email = reader.GetString(4),
+                        Password = reader.GetString(5)
+                    });
+
+                }
+
+            }
+
+            return listOfManagers;
+        }
     }
 }

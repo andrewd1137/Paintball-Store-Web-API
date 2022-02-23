@@ -66,6 +66,20 @@ namespace PPBL
         /// <returns></returns>
         List<StoreFront> ViewAllStores();
 
+        /// <summary>
+        /// will verify if the manager's credentials match
+        /// </summary>
+        /// <param name="p_managerEmail"></param>
+        /// <param name="p_managerPassword"></param>
+        /// <returns></returns>
+        Boolean VerifyManager(string p_managerEmail, string p_managerPassword, int p_storeID);
+
+        /// <summary>
+        /// will test to see if the quantity of an store product can be purchased
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <param name="itemQuantity"></param>
+        /// <returns></returns>
         Boolean TestQuantity(int itemID, int itemQuantity);
     }
 
