@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PlanetPaintballModel\PlanetPaintballModel.csproj" />
+    <ProjectReference Include="..\PlanetPaintballDL\PlanetPaintballDL.csproj" />
+    <ProjectReference Include="..\PlanetPaintballBL\PlanetPaintballBL.csproj" />
   </ItemGroup>
 
 </Project>

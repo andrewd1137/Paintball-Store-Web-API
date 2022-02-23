@@ -88,6 +88,12 @@ namespace PPBL
         /// <param name="p_order"></param>
         /// <returns></returns>
         Orders DeleteOrder(Orders p_order);
+
+        /// <summary>
+        /// gets all the managers
+        /// </summary>
+        /// <returns></returns>
+        List<Manager> GetManagers();
     }
 
 }

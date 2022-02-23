@@ -43,7 +43,6 @@ namespace PPBL
 
         }
 
-
         public List<Products> GetProductsByStoreAddress(string p_address)
         {
             return _repo.GetProductsByStoreAddress(p_address);
@@ -170,6 +169,11 @@ namespace PPBL
         public Orders DeleteOrder(Orders p_order)
         {
             return _repo.DeleteOrder(p_order);
+        }
+
+        public List<Manager> GetManagers()
+        {
+            return _repo.GetAllManagers();
         }
     }
 

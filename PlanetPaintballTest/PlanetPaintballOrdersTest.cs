@@ -59,7 +59,7 @@ namespace PlanetPaintballTest
         }
 
         [Fact]
-        public void OrdersShouldSetValid()
+        public void OrdersShouldSetValidTotalCost()
         {
 
             //Arrange
