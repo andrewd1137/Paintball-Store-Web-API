@@ -69,12 +69,21 @@ namespace PlanetPaintballApi.Controllers
 
         // POST: api/StoreFront
         [HttpPost("ReplenishInventory")]
-        public IActionResult ReplenishInventory(int p_storeID, int p_productID, int p_quantity)
+        public IActionResult ReplenishInventory(string p_managerEmail, string p_managerPassword, int p_storeID, int p_productID, int p_quantity)
         {
             try
             {
-                _planetPaintballStoresBL.UpdateInventory(p_storeID, p_productID, p_quantity);
-                return Ok();
+                bool isManager = _planetPaintballStoresBL.VerifyManager(p_managerEmail, p_managerPassword, p_storeID);
+                if(isManager)
+                {
+                    _planetPaintballStoresBL.UpdateInventory(p_storeID, p_productID, p_quantity);
+                    return Ok();
+                }
+                else
+                {
+                    Exception exc = new Exception ("Manager Credentials did not match for that store.");
+                    return Conflict(exc);
+                }
             }
             catch(SqlException)
             {
@@ -92,6 +101,7 @@ namespace PlanetPaintballApi.Controllers
             }
             catch(System.Exception ex)
             {
+                _planetPaintballStoresBL.DeleteOrder(p_order);
                 return Conflict(ex.Message);
             }
         }

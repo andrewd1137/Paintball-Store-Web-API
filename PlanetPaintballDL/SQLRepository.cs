@@ -16,7 +16,7 @@ namespace PPDL
         {
 
             string sqlQuery = @"insert into Customer
-                                values(@customerName, @customerAddress, @customerEmail)";
+                                values(@customerName, @customerAddress, @customerEmail, @customerPassword)";
         
             using(SqlConnection con = new SqlConnection(_connectionStrings))
             {
@@ -28,6 +28,7 @@ namespace PPDL
                 command.Parameters.AddWithValue("@customerName", p_customer.Name);
                 command.Parameters.AddWithValue("@customerAddress", p_customer.Address);
                 command.Parameters.AddWithValue("@customerEmail", p_customer.Email);
+                command.Parameters.AddWithValue("@customerPassword", p_customer.Password);
 
                 //execute the SQL statement
                 command.ExecuteNonQuery();
@@ -65,7 +66,8 @@ namespace PPDL
                         ID = reader.GetInt32(0),
                         Name = reader.GetString(1),
                         Address = reader.GetString(2),
-                        Email = reader.GetString(3)
+                        Email = reader.GetString(3),
+                        Password = reader.GetString(4)
                     });
 
                 }
@@ -260,14 +262,18 @@ namespace PPDL
 
         public Orders MakeAnOrder(Orders p_order)
         {
+            decimal cartTotal = 0M; 
+
             for(int index = 0; index<p_order.LineItems.Count; index++)
             {
                 //get the quantity from the database and see if that you have that many items in stock to buy
-                string sqlQuery = @"select sfp.quantity from storeFront_product sfp
-                                where sfp.productID = @productID";
+                string sqlQuery = @"select sfp.quantity, p.productPrice from Product p
+                                    inner join storeFront_product sfp  on p.productID = sfp.productID 
+                                    where sfp.productID = @productID and sfp.storeId = @storeID";
 
-                //make a temp quantity to store that value for later
+                //make a temp quantity and cost to store the values for later
                 int tempQuantity = 0;
+                decimal tempCost = 0;
                 
                 using(SqlConnection con = new SqlConnection(_connectionStrings))
                 {
@@ -276,11 +282,13 @@ namespace PPDL
 
                     SqlCommand command = new SqlCommand(sqlQuery, con);
                     command.Parameters.AddWithValue("@productID", p_order.LineItems[index].ProductID);
+                    command.Parameters.AddWithValue("@storeID", p_order.StoreID);
 
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
                         tempQuantity = reader.GetInt32(0);
+                        tempCost = reader.GetDecimal(1);
                     }
 
                     tempQuantity = tempQuantity - p_order.LineItems[index].ProductQuantity;
@@ -290,15 +298,15 @@ namespace PPDL
                         //That way we will take away the number from the total, allows us to reuse the code used to replenish, only instead we are taking away the value since it's now negative.
                         int subtractFromTotalInventory = 0 - p_order.LineItems[index].ProductQuantity;
                         UpdateInventory(p_order.StoreID, p_order.LineItems[index].ProductID, subtractFromTotalInventory);
+                        cartTotal = cartTotal + p_order.LineItems[index].ProductQuantity * tempCost;
                     }
                     else
                     {
-                        Exception exc = new Exception("Cannot purchase more items than the store has available!");
-                        return p_order;
+                        throw new Exception("Cannot purchase more items than the store has available!");
                     }
                 
                 }
-
+                
                 //now that we know the items can be purchased, we will now add them to the line items table and then get the total price.
                 sqlQuery = @"insert into LineItems
                             values(@orderID, @productID, @quantity)";
@@ -317,6 +325,25 @@ namespace PPDL
                     command.ExecuteNonQuery();
 
                 }
+
+                //now that we know the total cost, update the total cost in the orders table.
+                sqlQuery = @"UPDATE Orders
+                            set totalSpent = @cartTotal
+                            where orderID = (select max(o.orderID) from Orders o)";
+
+                using(SqlConnection con = new SqlConnection(_connectionStrings))
+                {
+
+                    con.Open();
+
+                    SqlCommand command = new SqlCommand(sqlQuery, con);
+                    command.Parameters.AddWithValue("@cartTotal", cartTotal);
+        
+                    //execute the SQL statement
+                    command.ExecuteNonQuery();
+
+                }
+
             }
             return p_order;
         }
@@ -418,11 +445,47 @@ namespace PPDL
             return listOfProducts;
         }
 
+        public List<LineItems> GetAllLineItems()
+        {
+            List<LineItems> listOfLineItems = new List<LineItems>();
+
+            string sqlQuery = @"select * from LineItems";
+
+            using (SqlConnection con = new SqlConnection(_connectionStrings))
+            {
+
+                //open the connection
+                con.Open();
+
+                //command object that has our query and con obj
+                SqlCommand command = new SqlCommand(sqlQuery, con);
+
+                //read outputs from sql statement using special class
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+
+                    listOfLineItems.Add(new LineItems()
+                    {
+                        OrderID = reader.GetInt32(0),
+                        ProductID = reader.GetInt32(1),
+                        ProductQuantity = reader.GetInt32(2)   
+                    });
+
+                }
+
+            }
+
+            return listOfLineItems;
+
+        }
+
         public List<Orders> GetAllOrders()
         {
             List<Orders> listOfOrders = new List<Orders>();
 
-            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID, from Orders o
+            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID, o.totalSpent from Orders o
                                 inner join Customer c on o.customerID = c.customerID
                                 inner join StoreFront s on s.storeFrontID = o.storeFrontID";
 
@@ -446,7 +509,8 @@ namespace PPDL
 
                         OrderID = reader.GetInt32(0),
                         CustomerID = reader.GetInt32(1),
-                        StoreID = reader.GetInt32(2)
+                        StoreID = reader.GetInt32(2),
+                        orderTotalCost = reader.GetDecimal(3)
                         
                     });
 
@@ -457,5 +521,63 @@ namespace PPDL
             return listOfOrders;
         }
 
+        public List<Manager> GetAllManagers()
+        {
+            List<Manager> listOfManagers = new List<Manager>();
+
+            string sqlQuery = @"select * from StoreManager";
+
+            using (SqlConnection con = new SqlConnection(_connectionStrings))
+            {
+
+                //open the connection
+                con.Open();
+
+                //command object that has our query and con obj
+                SqlCommand command = new SqlCommand(sqlQuery, con);
+
+                //read outputs from sql statement using special class
+                SqlDataReader reader = command.ExecuteReader();
+
+                while (reader.Read())
+                {
+
+                    listOfManagers.Add(new Manager()
+                    {
+                        ID = reader.GetInt32(0),
+                        storeID = reader.GetInt32(1),
+                        Name = reader.GetString(2),
+                        Address = reader.GetString(3),
+                        Email = reader.GetString(4),
+                        Password = reader.GetString(5)
+                    });
+
+                }
+
+            }
+
+            return listOfManagers;
+        }
+
+        public Orders DeleteOrder(Orders p_order)
+        {
+            //insert the values into orders table
+            string sqlQuery = @"delete from Orders where orderID = @orderID";
+
+            using(SqlConnection con = new SqlConnection(_connectionStrings))
+            {
+
+                con.Open();
+
+                SqlCommand command = new SqlCommand(sqlQuery, con);
+                command.Parameters.AddWithValue("@orderID", p_order.OrderID);
+
+                //execute the SQL statement
+                command.ExecuteNonQuery();
+
+            }
+
+            return p_order;
+        }
     }
 }
