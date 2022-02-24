@@ -163,7 +163,7 @@ namespace PlanetPaintballTest
         [Fact]
         public void ShouldViewOrderHistory()
         {
-            int testOrderId = 1;
+            
             int testProductID = 1;
             
             Products product = new Products()
