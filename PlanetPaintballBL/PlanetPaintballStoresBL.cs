@@ -50,7 +50,7 @@ namespace PPBL
 
         public void UpdateInventory(int p_storeID, int p_productID, int p_quantity)
         {
-        _repo.UpdateInventory(p_storeID, p_productID, p_quantity);
+            _repo.UpdateInventory(p_storeID, p_productID, p_quantity);
         }
 
         public List<Products> ViewOrder(int p_productID, string p_address)
