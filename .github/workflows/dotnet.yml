@@ -63,8 +63,8 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       shell: pwsh
       run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"220118-Reston-NET_Training-code" /o:"220118-reston-net" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverage.exclusions=**/PlanetPaintballApi/wwwroot/lib/**,**/**PlanetPaintballDL/*.cs,**/PlanetPaintballApi/Controllers/*.cs /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.vstest.reportsPath="**/TestResults/*.trx"
-          dotnet build ./PlanetPaintballApi -c Release
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"220118-Reston-NET_Training-code" /o:"220118-reston-net" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverage.exclusions=**/PPDBWebApp/wwwroot/lib/**,**/**PlanetPaintballDL/*.cs,**/PlanetPaintballApi/Controllers/*.cs /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml" -d:sonar.vstest.reportsPath="**/TestResults/*.trx"
+          dotnet build ./PPDBWebApp -c Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
         
         
