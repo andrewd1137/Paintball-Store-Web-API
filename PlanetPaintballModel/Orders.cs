@@ -11,14 +11,14 @@ namespace PPModel
 
         public decimal orderTotalCost {get; set;}
 
-        private List<LineItems> _lineItems;
-        public List<LineItems> LineItems
+        private List<LineItems> _shoppingCart;
+        public List<LineItems> ShoppingCart
         {
 
-            get { return _lineItems; }
+            get { return _shoppingCart; }
             set
             {
-                _lineItems = value;
+                _shoppingCart = value;
             }
 
         }

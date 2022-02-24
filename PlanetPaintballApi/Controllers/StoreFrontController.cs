@@ -61,9 +61,9 @@ namespace PlanetPaintballApi.Controllers
             {   
                 return Ok(_planetPaintballStoresBL.GetOrders(searchedString));
             }
-            catch (SqlException)
+            catch (SqlException e)
             {
-                return NotFound();
+                return NotFound(new {Results = e.Message});
             }
         }
 

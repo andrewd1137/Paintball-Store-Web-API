@@ -48,7 +48,6 @@ namespace PPBL
         /// </summary>
         /// <param name="newOrder"></param>
         LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int orderID);
-
         Orders MakeAnOrder(Orders p_order);
 
         /// <summary>
@@ -94,6 +93,12 @@ namespace PPBL
         /// </summary>
         /// <returns></returns>
         List<Manager> GetManagers();
+
+        /// <summary>
+        /// Will get all the line items
+        /// </summary>
+        /// <returns></returns>
+        List<LineItems> GetLineItems();
     }
 
 }

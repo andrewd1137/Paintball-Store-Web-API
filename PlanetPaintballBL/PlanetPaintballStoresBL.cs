@@ -75,67 +75,45 @@ namespace PPBL
 
         public List<Orders> GetOrders(string searchedString)
         {
-
-            List<Customer> listOfCustomer = _repo.GetAllCustomers();
-            List<StoreFront> listOfStores = _repo.GetStoreFronts();
-            List<Orders> listOfOrders = _repo.GetAllOrders();
-            List<LineItems> listOfLineItems = _repo.GetAllLineItems();
-
+            List<Orders> filterOrders = new List<Orders>();
+            List<Orders> listAllOrder =  _repo.GetAllOrders();
+            int customerId = 0;
+            int storeId = 0;       
             //search by the customer email
             if(Regex.IsMatch(searchedString, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
             {
-                var found = listOfCustomer.Find(p => p.Email == searchedString);
-                    if(found != null)
-                    {
-
-                        // //***needs work***
-                        // //will add each of the line items to the orders history for customer.
-                        // foreach(Orders orderItem in listOfOrders)
-                        // {
-                        //     foreach(LineItems item in listOfLineItems)
-                        //     {
-                        //         if(item.OrderID == orderItem.OrderID)
-                        //         {
-                        //             orderItem.LineItems.Add(item);
-                        //         }
-                        //     }
-                        // }
-
-                        //validation process using LINQ Library
-                        return listOfOrders
-                                .Where(customer => customer.CustomerID.Equals(found.ID))
-                                .ToList();
-                    }
-                    else
-                    {
-                        throw new Exception("A customer with this email has not been found.");
-                    }
-            }
-
-            //search by the store
-            else if(Regex.IsMatch(searchedString, @"^[#.0-9a-zA-Z\s,-]+$"))
-            {
-
-                var found = listOfStores.Find(p => p.Address == searchedString);
-                if(found != null)
+                customerId = _repo.GetAllCustomers().Find(p => p.Email.Equals(searchedString)).ID;
+                if(customerId != 0)
                 {
-
-                    //validation process using LINQ Library
-                    return listOfOrders
-                        .Where(store => store.StoreID.Equals(found.ID))
-                        .ToList();
-
+                    filterOrders = listAllOrder.FindAll(p => p.CustomerID == customerId);
                 }
                 else
                 {
-                    throw new Exception("A store with this address has not been found.");
+                     throw new Exception ("Could not find any orders matching this information!");
                 }
+                
+            }
+            //search by address (for store)
+            else if(Regex.IsMatch(searchedString, @"^[#.0-9a-zA-Z\s,-]+$"))
+            {
+                storeId = _repo.GetStoreFronts().Find(p => p.Address.Equals(searchedString)).ID;
 
-            } 
+                if(storeId != 0)
+                {
+                    filterOrders = listAllOrder.FindAll(p => p.StoreID == storeId);
+                }
+                else
+                {
+                    throw new Exception ("Could not find any orders matching this information!");
+                }
+                
+            }
             else
             {
-                throw new Exception("Could not search! Some error has occurred. Try restarting program.");
+                throw new Exception ("Could not find any orders matching this information!");
             }
+            
+            return filterOrders;
             
         }
 
@@ -174,6 +152,11 @@ namespace PPBL
         public List<Manager> GetManagers()
         {
             return _repo.GetAllManagers();
+        }
+
+        public List<LineItems> GetLineItems()
+        {
+            return _repo.GetAllLineItems();
         }
     }
 

@@ -111,6 +111,9 @@ namespace PPDL
         /// <param name="p_order"></param>
         /// <returns></returns>
         Orders DeleteOrder(Orders p_order);
+
+        List<LineItems> GetLineItemsByOrderID(int p_orderID);
+
     }
 
 

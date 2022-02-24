@@ -72,6 +72,95 @@ namespace PlanetPaintballTest
 
         }
 
+        [Fact]
+        public void ShouldGetAllStoreProducts()
+        {
+            
+            int testStoreID = 1;
+            string testStoreAddress = "21 Paint St";
+
+            int testProductID = 1;
+            string testProductName = "Book";
+
+            StoreFront store = new StoreFront()
+            {
+                ID = testStoreID,
+                Address = testStoreAddress
+            };
+
+            Products product = new Products()
+            {
+                ID = testProductID,
+                Name = testProductName
+            };
+
+            List<Products> expectedListOfStoreProducts = new List<Products>();
+            expectedListOfStoreProducts.Add(product);
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+            mockRepo.Setup(repo => repo.GetProductsByStoreAddress(testStoreAddress)).Returns(expectedListOfStoreProducts);            
+
+            IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+            List<Products> actualListOfProducts = planetPaintballStoresBL.GetProductsByStoreAddress(testStoreAddress);
+
+            Assert.Same(expectedListOfStoreProducts, actualListOfProducts);
+            Assert.Equal(testProductID, actualListOfProducts[0].ID);
+            Assert.Equal(testProductName, actualListOfProducts[0].Name);
+
+        }
+
+        [Fact]
+        public void ShouldGetAllLineItems()
+        {
+            
+            int testOrderId = 1;
+            int testProductID = 1;
+            int testProductQuantity = 2;
+
+            LineItems lineItem = new LineItems()
+            {
+                OrderID = testOrderId,
+                ProductID = testProductID,
+                ProductQuantity = testProductQuantity
+            };
+
+
+            List<LineItems> expectedListOfLineItems = new List<LineItems>();
+            expectedListOfLineItems.Add(lineItem);
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+            mockRepo.Setup(repo => repo.GetAllLineItems()).Returns(expectedListOfLineItems);            
+
+            IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+            List<LineItems> actualListOfLineItems = planetPaintballStoresBL.GetLineItems();
+
+            Assert.Same(expectedListOfLineItems, actualListOfLineItems);
+            Assert.Equal(testOrderId, actualListOfLineItems[0].OrderID);
+            Assert.Equal(testProductID, actualListOfLineItems[0].ProductID);
+            Assert.Equal(testProductQuantity, actualListOfLineItems[0].ProductQuantity);
+
+        }
+
+        [Fact]
+        public void ShouldUpdateStoreInventory()
+        {
+            int testStoreId = 1;
+            int testProductID = 1;
+            int testProductQuantity = 2;
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+            mockRepo.Setup(repo => repo.UpdateInventory(testStoreId, testProductID, testProductQuantity));            
+
+            IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+        }
+
+
     }
 
 }

@@ -264,7 +264,7 @@ namespace PPDL
         {
             decimal cartTotal = 0M; 
 
-            for(int index = 0; index<p_order.LineItems.Count; index++)
+            for(int index = 0; index<p_order.ShoppingCart.Count; index++)
             {
                 //get the quantity from the database and see if that you have that many items in stock to buy
                 string sqlQuery = @"select sfp.quantity, p.productPrice from Product p
@@ -281,7 +281,7 @@ namespace PPDL
                     con.Open();
 
                     SqlCommand command = new SqlCommand(sqlQuery, con);
-                    command.Parameters.AddWithValue("@productID", p_order.LineItems[index].ProductID);
+                    command.Parameters.AddWithValue("@productID", p_order.ShoppingCart[index].ProductID);
                     command.Parameters.AddWithValue("@storeID", p_order.StoreID);
 
                     SqlDataReader reader = command.ExecuteReader();
@@ -291,14 +291,14 @@ namespace PPDL
                         tempCost = reader.GetDecimal(1);
                     }
 
-                    tempQuantity = tempQuantity - p_order.LineItems[index].ProductQuantity;
+                    tempQuantity = tempQuantity - p_order.ShoppingCart[index].ProductQuantity;
                     if(tempQuantity >= 0)
                     {
                         //This will make the value of the quantity the same number with a negative in front of it.
                         //That way we will take away the number from the total, allows us to reuse the code used to replenish, only instead we are taking away the value since it's now negative.
-                        int subtractFromTotalInventory = 0 - p_order.LineItems[index].ProductQuantity;
-                        UpdateInventory(p_order.StoreID, p_order.LineItems[index].ProductID, subtractFromTotalInventory);
-                        cartTotal = cartTotal + p_order.LineItems[index].ProductQuantity * tempCost;
+                        int subtractFromTotalInventory = 0 - p_order.ShoppingCart[index].ProductQuantity;
+                        UpdateInventory(p_order.StoreID, p_order.ShoppingCart[index].ProductID, subtractFromTotalInventory);
+                        cartTotal = cartTotal + p_order.ShoppingCart[index].ProductQuantity * tempCost;
                     }
                     else
                     {
@@ -318,8 +318,8 @@ namespace PPDL
 
                     SqlCommand command = new SqlCommand(sqlQuery, con);
                     command.Parameters.AddWithValue("@orderID", p_order.OrderID);
-                    command.Parameters.AddWithValue("@productID", p_order.LineItems[index].ProductID);
-                    command.Parameters.AddWithValue("@quantity", p_order.LineItems[index].ProductQuantity);
+                    command.Parameters.AddWithValue("@productID", p_order.ShoppingCart[index].ProductID);
+                    command.Parameters.AddWithValue("@quantity", p_order.ShoppingCart[index].ProductQuantity);
 
                     //execute the SQL statement
                     command.ExecuteNonQuery();
@@ -510,8 +510,8 @@ namespace PPDL
                         OrderID = reader.GetInt32(0),
                         CustomerID = reader.GetInt32(1),
                         StoreID = reader.GetInt32(2),
-                        orderTotalCost = reader.GetDecimal(3)
-                        
+                        orderTotalCost = reader.GetDecimal(3),
+                        ShoppingCart = GetLineItemsByOrderID(reader.GetInt32(0))
                     });
 
                 }
@@ -578,6 +578,11 @@ namespace PPDL
             }
 
             return p_order;
+        }
+
+        public List<LineItems> GetLineItemsByOrderID(int p_orderID)
+        {
+            return GetAllLineItems().FindAll(p => p.OrderID.Equals(p_orderID));
         }
     }
 }
