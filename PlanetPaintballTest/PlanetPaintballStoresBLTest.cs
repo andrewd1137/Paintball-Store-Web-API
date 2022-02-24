@@ -160,6 +160,25 @@ namespace PlanetPaintballTest
 
         }
 
+        [Fact]
+        public void ShouldViewOrderHistory()
+        {
+            int testOrderId = 1;
+            int testProductID = 1;
+            
+            Products product = new Products()
+            {
+                ID = testProductID
+            };
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+            mockRepo.Setup(repo => repo.ViewOrder(product));
+
+            IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+        }
+
 
     }
 
