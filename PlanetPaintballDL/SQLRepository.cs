@@ -201,12 +201,14 @@ namespace PPDL
         public LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int p_orderID)
         {         
             //get the quantity from the database and see if that you have that many items in stock to buy
-            string sqlQuery = @"select sfp.quantity from storeFront_product sfp
+            string sqlQuery = @"select sfp.quantity, p.productPrice from storeFront_product sfp 
+                            inner join Product p on sfp.productID = p.productID 
                             where sfp.productID = @productID";
 
             //make a temp quantity to store that value for later
             int tempQuantity = 0;
-            
+            decimal quantityPrice = 0;
+
             using(SqlConnection con = new SqlConnection(_connectionStrings))
             {
 
@@ -219,6 +221,7 @@ namespace PPDL
                 while (reader.Read())
                 {
                     tempQuantity = reader.GetInt32(0);
+                    quantityPrice = reader.GetDecimal(1) * tempQuantity;
                 }
 
                 tempQuantity = tempQuantity - p_lineItems.ProductQuantity;
@@ -237,9 +240,9 @@ namespace PPDL
                
             }
 
-            //now that we know the items can be purchased, we will now add them to the line items table and then get the total price.
+            //now that we know the items can be purchased, we will now add them to the line items table and then get the total price
             sqlQuery = @"insert into LineItems
-                        values(@orderID, @productID, @quantity)";
+                        values(@orderID, @productID, @quantity, @quantityPrice)";
 
             using(SqlConnection con = new SqlConnection(_connectionStrings))
             {
@@ -250,6 +253,7 @@ namespace PPDL
                 command.Parameters.AddWithValue("@orderID", p_orderID);
                 command.Parameters.AddWithValue("@productID", p_lineItems.ProductID);
                 command.Parameters.AddWithValue("@quantity", p_lineItems.ProductQuantity);
+                command.Parameters.AddWithValue("@quantityPrice", quantityPrice);
 
                 //execute the SQL statement
                 command.ExecuteNonQuery();
@@ -274,7 +278,8 @@ namespace PPDL
                 //make a temp quantity and cost to store the values for later
                 int tempQuantity = 0;
                 decimal tempCost = 0;
-                
+                decimal quantityCost = 0;
+
                 using(SqlConnection con = new SqlConnection(_connectionStrings))
                 {
 
@@ -290,6 +295,9 @@ namespace PPDL
                         tempQuantity = reader.GetInt32(0);
                         tempCost = reader.GetDecimal(1);
                     }
+
+                    //cost of the item based on quantity purchased
+                    quantityCost = tempCost * p_order.ShoppingCart[index].ProductQuantity;
 
                     tempQuantity = tempQuantity - p_order.ShoppingCart[index].ProductQuantity;
                     if(tempQuantity >= 0)
@@ -309,7 +317,7 @@ namespace PPDL
                 
                 //now that we know the items can be purchased, we will now add them to the line items table and then get the total price.
                 sqlQuery = @"insert into LineItems
-                            values(@orderID, @productID, @quantity)";
+                            values(@orderID, @productID, @quantity, @quantityPrice)";
 
                 using(SqlConnection con = new SqlConnection(_connectionStrings))
                 {
@@ -320,6 +328,7 @@ namespace PPDL
                     command.Parameters.AddWithValue("@orderID", p_order.OrderID);
                     command.Parameters.AddWithValue("@productID", p_order.ShoppingCart[index].ProductID);
                     command.Parameters.AddWithValue("@quantity", p_order.ShoppingCart[index].ProductQuantity);
+                    command.Parameters.AddWithValue("@quantityPrice", quantityCost);
 
                     //execute the SQL statement
                     command.ExecuteNonQuery();
@@ -449,7 +458,8 @@ namespace PPDL
         {
             List<LineItems> listOfLineItems = new List<LineItems>();
 
-            string sqlQuery = @"select * from LineItems";
+            string sqlQuery = @"select li.orderID, li.productID, li.quantity, li.quantityPrice, p.productName, p.productPrice from LineItems li
+                                inner join Product p on p.productID = li.productID";
 
             using (SqlConnection con = new SqlConnection(_connectionStrings))
             {
@@ -470,7 +480,10 @@ namespace PPDL
                     {
                         OrderID = reader.GetInt32(0),
                         ProductID = reader.GetInt32(1),
-                        ProductQuantity = reader.GetInt32(2)   
+                        ProductQuantity = reader.GetInt32(2),
+                        QuantityPrice = reader.GetDecimal(3),
+                        ProductName = reader.GetString(4),
+                        ProductPrice = reader.GetDecimal(5)
                     });
 
                 }
@@ -485,7 +498,7 @@ namespace PPDL
         {
             List<Orders> listOfOrders = new List<Orders>();
 
-            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID, o.totalSpent from Orders o
+            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID, o.totalSpent, s.storeFrontName from Orders o
                                 inner join Customer c on o.customerID = c.customerID
                                 inner join StoreFront s on s.storeFrontID = o.storeFrontID";
 
@@ -511,6 +524,7 @@ namespace PPDL
                         CustomerID = reader.GetInt32(1),
                         StoreID = reader.GetInt32(2),
                         orderTotalCost = reader.GetDecimal(3),
+                        storeName = reader.GetString(4),
                         ShoppingCart = GetLineItemsByOrderID(reader.GetInt32(0))
                     });
 
@@ -583,6 +597,45 @@ namespace PPDL
         public List<LineItems> GetLineItemsByOrderID(int p_orderID)
         {
             return GetAllLineItems().FindAll(p => p.OrderID.Equals(p_orderID));
+        }
+
+        public List<Products> GetAllProducts()
+        {
+            
+            List<Products> listOfProducts = new List<Products>();
+
+                string sqlQuery = @"select * from Product";
+
+                using (SqlConnection con = new SqlConnection(_connectionStrings))
+                {
+
+                    //open the connection
+                    con.Open();
+
+                    //command object that has our query and con obj
+                    SqlCommand command = new SqlCommand(sqlQuery, con);
+
+                    //read outputs from sql statement using special class
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+
+                        listOfProducts.Add(new Products()
+                        {
+
+                            ID = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Price = reader.GetDecimal(2),
+                            Description = reader.GetString(3),
+                            Category = reader.GetString(4)
+                        });
+
+                    }
+
+                }
+
+                return listOfProducts;
         }
     }
 }

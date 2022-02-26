@@ -77,8 +77,11 @@ namespace PPBL
         {
             List<Orders> filterOrders = new List<Orders>();
             List<Orders> listAllOrder =  _repo.GetAllOrders();
+            List<Products> ListAllProducts = _repo.GetAllProducts();
+
             int customerId = 0;
-            int storeId = 0;       
+            int storeId = 0;
+
             //search by the customer email
             if(Regex.IsMatch(searchedString, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"))
             {
@@ -157,6 +160,11 @@ namespace PPBL
         public List<LineItems> GetLineItems()
         {
             return _repo.GetAllLineItems();
+        }
+
+        public List<Products> GetAllProducts()
+        {
+            return _repo.GetAllProducts();
         }
     }
 

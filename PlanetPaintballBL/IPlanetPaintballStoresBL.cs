@@ -99,6 +99,9 @@ namespace PPBL
         /// </summary>
         /// <returns></returns>
         List<LineItems> GetLineItems();
+
+        List<Products> GetAllProducts();
+
     }
 
 }

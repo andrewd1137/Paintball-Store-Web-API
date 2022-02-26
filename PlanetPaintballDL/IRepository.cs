@@ -114,6 +114,8 @@ namespace PPDL
 
         List<LineItems> GetLineItemsByOrderID(int p_orderID);
 
+        List<Products> GetAllProducts();
+
     }
 
 

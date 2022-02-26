@@ -9,6 +9,8 @@ namespace PPModel
     
         public int StoreID {get; set;}
 
+        public string storeName {get; set;}
+
         public decimal orderTotalCost {get; set;}
 
         private List<LineItems> _shoppingCart;
