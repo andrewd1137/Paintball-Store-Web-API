@@ -41,6 +41,40 @@ namespace PlanetPaintballTest
 
         }
 
+        // [Fact]
+        // public void ShouldThrowEmailException()
+        // {
+
+        //     string customerName = "Andrew DeMarco";
+        //     string customerEmail = "andrew@email.com";
+        //     string customerAddress = "123 St";
+        //     string customerPassword = "1234";
+
+        //     Customer customer = new Customer()
+        //     {
+        //         Name = customerName,
+        //         Email = customerEmail,
+        //         Address = customerAddress,
+        //         Password = customerPassword
+        //     };
+
+        //     //should throw exception here since email should be unique
+        //     Customer customer2 = new Customer()
+        //     {
+        //         Name = customerName,
+        //         Email = customerEmail,
+        //         Address = customerAddress,
+        //         Password = customerPassword
+        //     };
+
+        //     Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+        //     mockRepo.Setup(repo => repo.AddCustomer(customer)).Verifiable();            
+
+        //     IPlanetPaintballBL planetPaintballBL = new PlanetPaintballBL(mockRepo.Object);
+
+        // }
+
     }
 
 }
