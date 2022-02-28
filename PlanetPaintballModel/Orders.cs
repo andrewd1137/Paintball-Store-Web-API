@@ -13,6 +13,8 @@ namespace PPModel
 
         public decimal orderTotalCost {get; set;}
 
+        public DateTime createdOrder {get; set;}
+
         private List<LineItems> _shoppingCart;
         public List<LineItems> ShoppingCart
         {
@@ -24,9 +26,6 @@ namespace PPModel
             }
 
         }
-
-        public string StoreFrontLocation;
-        public int Price;
 
         //string version of the object
         public override string ToString()

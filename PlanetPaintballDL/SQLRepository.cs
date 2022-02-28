@@ -116,9 +116,11 @@ namespace PPDL
         public Orders StartOrder(Orders p_order)
         {
             
+            p_order.createdOrder = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+
             //insert the values into orders table
             string sqlQuery = @"insert into Orders
-                                values(@customerID, @storeFrontID, @totalSpent)";
+                                values(@customerID, @storeFrontID, @totalSpent, @createdOrder)";
 
             using(SqlConnection con = new SqlConnection(_connectionStrings))
             {
@@ -129,6 +131,7 @@ namespace PPDL
                 command.Parameters.AddWithValue("@customerID", p_order.CustomerID);
                 command.Parameters.AddWithValue("@storeFrontID", p_order.StoreID);
                 command.Parameters.AddWithValue("@totalSpent", p_order.orderTotalCost);
+                command.Parameters.AddWithValue("@createdOrder", p_order.createdOrder);
 
                 //execute the SQL statement
                 command.ExecuteNonQuery();
@@ -432,7 +435,7 @@ namespace PPDL
         {
             List<Orders> listOfOrders = new List<Orders>();
 
-            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID, o.totalSpent, s.storeFrontName from Orders o
+            string sqlQuery = @"select o.orderID, o.customerID, o.storeFrontID, o.totalSpent, s.storeFrontName, o.createdOrder from Orders o
                                 inner join Customer c on o.customerID = c.customerID
                                 inner join StoreFront s on s.storeFrontID = o.storeFrontID";
 
@@ -459,6 +462,7 @@ namespace PPDL
                         StoreID = reader.GetInt32(2),
                         orderTotalCost = reader.GetDecimal(3),
                         storeName = reader.GetString(4),
+                        createdOrder = reader.GetDateTime(5),
                         ShoppingCart = GetLineItemsByOrderID(reader.GetInt32(0))
                     });
 

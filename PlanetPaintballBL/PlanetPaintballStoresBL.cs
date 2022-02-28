@@ -130,9 +130,11 @@ namespace PPBL
             }
             else if(searchMode == "date")
             {
+                List<Orders> sortedOrders = new List<Orders>();
 
-                //sort the order by date
-                return filterOrders;
+                sortedOrders = filterOrders.OrderBy(p => p.createdOrder).ToList();
+
+                return sortedOrders;
             }
             else
             {
