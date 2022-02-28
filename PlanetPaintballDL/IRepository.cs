@@ -17,15 +17,7 @@ namespace PPDL
         /// <param name="p_customer">The customer object we are adding to the database</param>
         /// <returns>Returns the customer that was added</returns>
         Customer AddCustomer(Customer p_customer);
-
-        /// <summary>
-        /// Searches for the customer in the database takes in the customer we are searching for
-        /// </summary>
-        /// <param name="p_customer"></param>
-        /// <returns></returns>
-        Customer SearchCustomer(Customer p_customer);
         
-
         /// <summary>
         /// will give all the customers in the database
         /// </summary>
@@ -50,13 +42,6 @@ namespace PPDL
         /// </summary>
         /// <returns></returns>
         List<Orders> GetAllOrders(); 
-
-        /// <summary>
-        /// will view the current items in the order
-        /// </summary>
-        /// <param name="p_order"></param>
-        /// <returns></returns>
-        Products ViewOrder(Products p_product);
 
         /// <summary>
         /// will start the order by adding information to the orders table in database
@@ -105,8 +90,17 @@ namespace PPDL
         /// <returns></returns>
         Orders DeleteOrder(Orders p_order);
 
+        /// <summary>
+        /// will get the items based on the order id. used to add the line items to the listoflineitems in orders
+        /// </summary>
+        /// <param name="p_orderID"></param>
+        /// <returns></returns>
         List<LineItems> GetLineItemsByOrderID(int p_orderID);
 
+        /// <summary>
+        /// will get all the products from the db
+        /// </summary>
+        /// <returns></returns>
         List<Products> GetAllProducts();
 
     }

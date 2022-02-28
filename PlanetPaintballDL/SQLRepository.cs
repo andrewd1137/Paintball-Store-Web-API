@@ -294,11 +294,6 @@ namespace PPDL
             return p_order;
         }
 
-        public Orders GetOrders(Orders p_order)
-        {
-            return p_order;
-        }
-
         public void UpdateInventory(int p_storeID, int p_productID, int p_quantity)
         {
             int tempQuantity = 0;
@@ -340,16 +335,6 @@ namespace PPDL
                 command.ExecuteNonQuery();
             }
 
-        }
-
-        public Customer SearchCustomer(Customer p_customer)
-        {
-            return p_customer;
-        }
-
-        public Products ViewOrder(Products p_product)
-        {
-            return p_product;
         }
 
         List<Products> IRepository.GetProductsByStoreAddress(string p_address)
