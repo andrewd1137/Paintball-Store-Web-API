@@ -47,7 +47,6 @@ namespace PPBL
         /// will make the order of the items the customer has ordered
         /// </summary>
         /// <param name="newOrder"></param>
-        LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int orderID);
         Orders MakeAnOrder(Orders p_order);
 
         /// <summary>
@@ -56,7 +55,7 @@ namespace PPBL
         /// <param name="searchMode"></param>
         /// <param name="storeLocation"></param>
         /// <returns></returns>
-        List<Orders> GetOrders(string seachedString);
+        List<Orders> GetOrders(string seachedString, string searchMode);
 
         /// <summary>
         /// will list all the stores for the user if they do not know the address of the one they want to view

@@ -55,11 +55,11 @@ namespace PlanetPaintballApi.Controllers
         }
 
         [HttpGet("ViewOrderHistory")]
-        public IActionResult ViewOrderHistory([FromQuery] string searchedString)
+        public IActionResult ViewOrderHistory([FromQuery] string searchedString, string searchMode)
         {
             try
             {   
-                return Ok(_planetPaintballStoresBL.GetOrders(searchedString));
+                return Ok(_planetPaintballStoresBL.GetOrders(searchedString, searchMode));
             }
             catch (SqlException e)
             {

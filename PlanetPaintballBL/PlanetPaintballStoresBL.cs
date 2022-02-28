@@ -63,17 +63,12 @@ namespace PPBL
 
         }
 
-        public LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int quantity)
-        {
-            return _repo.MakeOrder(p_storeID, p_lineItems, quantity);
-        }
-
         public Orders MakeAnOrder(Orders p_order)
         {
             return _repo.MakeAnOrder(p_order);
         }
 
-        public List<Orders> GetOrders(string searchedString)
+        public List<Orders> GetOrders(string searchedString, string searchMode)
         {
             List<Orders> filterOrders = new List<Orders>();
             List<Orders> listAllOrder =  _repo.GetAllOrders();
@@ -116,7 +111,34 @@ namespace PPBL
                 throw new Exception ("Could not find any orders matching this information!");
             }
             
-            return filterOrders;
+            if(searchMode == "cost-low2high")
+            {
+                List<Orders> sortedOrders = new List<Orders>();
+                
+                sortedOrders = filterOrders.OrderBy(p => p.orderTotalCost).ToList();
+
+                return sortedOrders;
+            }
+            else if(searchMode == "cost-high2low")
+            {
+                List<Orders> sortedOrders = new List<Orders>();
+                
+                sortedOrders = filterOrders.OrderBy(p => p.orderTotalCost).ToList();
+                sortedOrders.Reverse();
+
+                return sortedOrders;
+            }
+            else if(searchMode == "date")
+            {
+
+                //sort the order by date
+                return filterOrders;
+            }
+            else
+            {
+                //just return orders
+                return filterOrders;
+            }
             
         }
 

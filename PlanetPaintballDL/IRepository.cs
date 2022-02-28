@@ -66,13 +66,6 @@ namespace PPDL
         Orders StartOrder(Orders p_order);
 
         /// <summary>
-        /// will make the add the products the customer ordered
-        /// </summary>
-        /// <param name="p_order"></param>
-        /// <returns></returns>
-        LineItems MakeOrder(int p_storeID, LineItems p_lineItems, int quantityOrdered);
-
-        /// <summary>
         /// controller version for adding products customer ordered
         /// </summary>
         /// <param name="p_order"></param>
