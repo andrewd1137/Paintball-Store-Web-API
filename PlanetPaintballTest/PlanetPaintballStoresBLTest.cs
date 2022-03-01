@@ -154,11 +154,9 @@ namespace PlanetPaintballTest
 
             Mock<IRepository> mockRepo = new Mock<IRepository>();
 
-            mockRepo.Setup(repo => repo.UpdateInventory(testStoreId, testProductID, testProductQuantity));            
+            mockRepo.Setup(repo => repo.UpdateInventory(testStoreId, testProductID, testProductQuantity)).Verifiable();            
 
             IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
-
-
 
         }
 

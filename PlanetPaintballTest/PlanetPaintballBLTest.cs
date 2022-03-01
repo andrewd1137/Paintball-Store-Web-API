@@ -76,70 +76,63 @@ namespace PlanetPaintballTest
             Assert.Equal(customer.Password, customer1.Password);
         }
 
-        // [Fact]
-        // public void ShouldThrowSearchCustomerException()
-        // {
+        [Fact]
+        public void ShouldThrowSearchCustomerException()
+        {
 
-        //     string customerName = "Andrew DeMarco";
-        //     string customerEmail = "andrew@email.com";
-        //     string customerAddress = "123 St";
-        //     string customerPassword = "1234";
+            string customerName = "Andrew DeMarco";
+            string customerEmail = "andrew@email.com";
+            string customerAddress = "123 St";
+            string customerPassword = "1234";
 
-        //     Customer customer = new Customer()
-        //     {
-        //         Name = customerName,
-        //         Email = customerEmail,
-        //         Address = customerAddress,
-        //         Password = customerPassword
-        //     };
+            Customer customer = new Customer()
+            {
+                Name = customerName,
+                Email = customerEmail,
+                Address = customerAddress,
+                Password = customerPassword
+            };
 
-        //     List<Customer> expectedListOfCustomers = new List<Customer>();
-        //     expectedListOfCustomers.Add(customer);
+            List<Customer> expectedListOfCustomers = new List<Customer>();
+            expectedListOfCustomers.Add(customer);
 
-        //     Mock<IRepository> mockRepo = new Mock<IRepository>();
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
             
-        //     mockRepo.Setup(repo => repo.GetAllCustomers()).Returns(expectedListOfCustomers);
+            mockRepo.Setup(repo => repo.GetAllCustomers()).Returns(expectedListOfCustomers);
 
-        //     IPlanetPaintballBL planetPaintballBL = new PlanetPaintballBL(mockRepo.Object);
+            IPlanetPaintballBL planetPaintballBL = new PlanetPaintballBL(mockRepo.Object);
 
-        //     List<Customer> actualListOfCustomers = planetPaintballBL.SearchCustomer("John");
+            Assert.Throws<System.Exception>( () => planetPaintballBL.SearchCustomer("John"));
+            
+        }  
 
-        //     var exception = Assert.Throws<System.Exception>("A customer with this name has not been found.");
-        //     Assert.Equal("A customer with this name has not been found.", exception.Message);
+        [Fact]
+        public void ShouldThrowVerifidCustomerException()
+        {
 
-        // }  
+            string customerName = "Andrew DeMarco";
+            string customerEmail = "andrew@email.com";
+            string customerPassword = "1234";
 
-        // [Fact]
-        // public void ShouldVerifyCustomerCredentials()
-        // {
+            Customer customer = new Customer()
+            {
+                Name = customerName,
+                Email = customerEmail,
+                Password = customerPassword
+            };
 
-        //     string customerName = "Andrew DeMarco";
-        //     string customerEmail = "andrew@email.com";
-        //     string customerPassword = "1234";
+            List<Customer> expectedListOfCustomers = new List<Customer>();
+            expectedListOfCustomers.Add(customer);
 
-        //     Customer customer = new Customer()
-        //     {
-        //         Name = customerName,
-        //         Email = customerEmail,
-        //         Password = customerPassword
-        //     };
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
 
-        //     List<Customer> expectedListOfCustomers = new List<Customer>();
-        //     expectedListOfCustomers.Add(customer);
+            mockRepo.Setup(repo => repo.GetAllCustomers()).Returns(expectedListOfCustomers);            
 
-        //     Mock<IRepository> mockRepo = new Mock<IRepository>();
+            IPlanetPaintballBL planetPaintballBL = new PlanetPaintballBL(mockRepo.Object);
 
-        //     mockRepo.Setup(repo => repo.GetAllCustomers()).Returns(expectedListOfCustomers);            
+            Assert.Throws<System.Exception>( () => planetPaintballBL.VerifyCustomer("john@email.com", "432432"));
 
-        //     IPlanetPaintballBL planetPaintballBL = new PlanetPaintballBL(mockRepo.Object);
-
-        //     List<Customer> actualListOfCustomers = planetPaintballBL.VerifyCustomer(customerEmail, customerPassword);
-
-        //     Assert.Same(expectedListOfCustomers, actualListOfCustomers);
-        //     Assert.Equal(customerEmail, actualListOfCustomers[0].Email);
-        //     Assert.Equal(customerPassword, actualListOfCustomers[0].Password);
-
-        // }      
+        }      
 
     }
 
