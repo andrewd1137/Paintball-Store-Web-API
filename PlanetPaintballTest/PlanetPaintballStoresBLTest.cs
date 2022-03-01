@@ -146,12 +146,12 @@ namespace PlanetPaintballTest
         }
 
         [Fact]
-        public void ShouldThrowVerifiedManagerException()
+        public void ShouldVerifyManager()
         {
 
             Manager manager = new Manager()
             {
-                storeID = 1,
+                storeID =1,
                 Email = "joe@email.com",
                 Password = "1234"
             };
@@ -235,6 +235,58 @@ namespace PlanetPaintballTest
 
             Assert.Same(expectedListOfProducts, actualListOfProducts);
 
+        }
+
+        [Fact]
+        public void ShouldDeleteOrder()
+        {
+            
+            int storeID = 1;
+            decimal cost = 100.00M;
+
+            Orders order = new Orders()
+            {
+                StoreID = storeID,
+                orderTotalCost = cost
+            };
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+            mockRepo.Setup(repo => repo.DeleteOrder(order)).Returns(order);            
+
+            IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+            Orders order1 = planetPaintballStoresBL.DeleteOrder(order);
+
+            Assert.Same(order, order1);
+            Assert.Equal(order.StoreID, order1.StoreID);
+            Assert.Equal(order.orderTotalCost, order1.orderTotalCost);
+        }
+
+        [Fact]
+        public void ShouldStartOrder()
+        {
+            
+            int storeID = 1;
+            decimal cost = 100.00M;
+
+            Orders order = new Orders()
+            {
+                StoreID = storeID,
+                orderTotalCost = cost
+            };
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+            mockRepo.Setup(repo => repo.StartOrder(order)).Returns(order);            
+
+            IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+            Orders order1 = planetPaintballStoresBL.StartOrder(order);
+
+            Assert.Same(order, order1);
+            Assert.Equal(order.StoreID, order1.StoreID);
+            Assert.Equal(order.orderTotalCost, order1.orderTotalCost);
         }
 
     }
