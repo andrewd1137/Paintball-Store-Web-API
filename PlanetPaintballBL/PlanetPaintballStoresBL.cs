@@ -53,16 +53,6 @@ namespace PPBL
             _repo.UpdateInventory(p_storeID, p_productID, p_quantity);
         }
 
-        public List<Products> ViewOrder(int p_productID, string p_address)
-        {
-            List<Products> listOfItemsInOrder = _repo.GetProductsByStoreAddress(p_address);
-            
-            return listOfItemsInOrder
-                    .Where(product => product.ID.Equals(p_productID))
-                    .ToList();
-
-        }
-
         public Orders MakeAnOrder(Orders p_order)
         {
             return _repo.MakeAnOrder(p_order);
@@ -149,11 +139,6 @@ namespace PPBL
             return _repo.StartOrder(p_order);
         }
 
-        public bool TestQuantity(int p_id, int p_quantity)
-        {
-            return _repo.TestQuantity(p_id, p_quantity);
-        }
-
         public bool VerifyManager(string p_managerEmail, string p_managerPassword, int p_storeID)
         {
 
@@ -186,10 +171,6 @@ namespace PPBL
             return _repo.GetAllLineItems();
         }
 
-        public List<Products> GetAllProducts()
-        {
-            return _repo.GetAllProducts();
-        }
     }
 
 }

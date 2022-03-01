@@ -13,3 +13,13 @@
 2022-03-01 12:14:32.159 -05:00 [INF] User placed their order!
 2022-03-01 12:14:42.842 -05:00 [INF] User has gotten all customers
 2022-03-01 14:47:30.654 -05:00 [INF] User has gotten all customers
+2022-03-01 15:36:59.311 -05:00 [INF] User has gotten all customers
+2022-03-01 15:37:13.067 -05:00 [INF] User has searched for a customer
+2022-03-01 15:37:17.931 -05:00 [INF] User has searched for a customer
+2022-03-01 15:37:22.814 -05:00 [INF] User has searched for a customer
+2022-03-01 15:37:34.338 -05:00 [INF] User has verified customer credentials
+2022-03-01 15:38:01.796 -05:00 [INF] User has added a customer!
+2022-03-01 15:39:16.431 -05:00 [INF] Verifying if user is a manager for a store.
+2022-03-01 15:39:16.600 -05:00 [INF] User is a manager and updated store inventory!
+2022-03-01 15:39:39.576 -05:00 [INF] User started placing the order!
+2022-03-01 15:39:39.663 -05:00 [INF] User placed their order!

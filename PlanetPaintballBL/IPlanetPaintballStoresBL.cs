@@ -29,14 +29,6 @@ namespace PPBL
         void UpdateInventory(int p_storeID, int p_productID, int p_quantity);
 
         /// <summary>
-        /// will view the product from an order
-        /// </summary>
-        /// <param name="p_order"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        List<Products> ViewOrder(int p_productID, string storeAddress);
-
-        /// <summary>
         /// will add the customer order to the orders tab first.
         /// </summary>
         /// <param name="p_order"></param>
@@ -73,14 +65,6 @@ namespace PPBL
         Boolean VerifyManager(string p_managerEmail, string p_managerPassword, int p_storeID);
 
         /// <summary>
-        /// will test to see if the quantity of an store product can be purchased
-        /// </summary>
-        /// <param name="itemID"></param>
-        /// <param name="itemQuantity"></param>
-        /// <returns></returns>
-        Boolean TestQuantity(int itemID, int itemQuantity);
-
-        /// <summary>
         /// will delete the order from the database
         /// </summary>
         /// <param name="p_order"></param>
@@ -98,8 +82,6 @@ namespace PPBL
         /// </summary>
         /// <returns></returns>
         List<LineItems> GetLineItems();
-
-        List<Products> GetAllProducts();
 
     }
 
