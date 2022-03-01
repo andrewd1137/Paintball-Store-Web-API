@@ -158,6 +158,35 @@ namespace PlanetPaintballTest
 
             IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
 
+
+
+        }
+
+        [Fact]
+        public void ShouldMakeAnOrder()
+        {
+
+            int storeID = 1;
+            decimal cost = 100.00M;
+
+            Orders order = new Orders()
+            {
+                StoreID = storeID,
+                orderTotalCost = cost
+            };
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+            mockRepo.Setup(repo => repo.MakeAnOrder(order)).Returns(order);            
+
+            IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+            Orders order1 = planetPaintballStoresBL.MakeAnOrder(order);
+
+            Assert.Same(order, order1);
+            Assert.Equal(order.StoreID, order1.StoreID);
+            Assert.Equal(order.orderTotalCost, order1.orderTotalCost);
+
         }
 
     }
