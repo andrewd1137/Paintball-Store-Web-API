@@ -76,6 +76,71 @@ namespace PlanetPaintballTest
             Assert.Equal(customer.Password, customer1.Password);
         }
 
+        // [Fact]
+        // public void ShouldThrowSearchCustomerException()
+        // {
+
+        //     string customerName = "Andrew DeMarco";
+        //     string customerEmail = "andrew@email.com";
+        //     string customerAddress = "123 St";
+        //     string customerPassword = "1234";
+
+        //     Customer customer = new Customer()
+        //     {
+        //         Name = customerName,
+        //         Email = customerEmail,
+        //         Address = customerAddress,
+        //         Password = customerPassword
+        //     };
+
+        //     List<Customer> expectedListOfCustomers = new List<Customer>();
+        //     expectedListOfCustomers.Add(customer);
+
+        //     Mock<IRepository> mockRepo = new Mock<IRepository>();
+            
+        //     mockRepo.Setup(repo => repo.GetAllCustomers()).Returns(expectedListOfCustomers);
+
+        //     IPlanetPaintballBL planetPaintballBL = new PlanetPaintballBL(mockRepo.Object);
+
+        //     List<Customer> actualListOfCustomers = planetPaintballBL.SearchCustomer("John");
+
+        //     var exception = Assert.Throws<System.Exception>("A customer with this name has not been found.");
+        //     Assert.Equal("A customer with this name has not been found.", exception.Message);
+
+        // }  
+
+        // [Fact]
+        // public void ShouldVerifyCustomerCredentials()
+        // {
+
+        //     string customerName = "Andrew DeMarco";
+        //     string customerEmail = "andrew@email.com";
+        //     string customerPassword = "1234";
+
+        //     Customer customer = new Customer()
+        //     {
+        //         Name = customerName,
+        //         Email = customerEmail,
+        //         Password = customerPassword
+        //     };
+
+        //     List<Customer> expectedListOfCustomers = new List<Customer>();
+        //     expectedListOfCustomers.Add(customer);
+
+        //     Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+        //     mockRepo.Setup(repo => repo.GetAllCustomers()).Returns(expectedListOfCustomers);            
+
+        //     IPlanetPaintballBL planetPaintballBL = new PlanetPaintballBL(mockRepo.Object);
+
+        //     List<Customer> actualListOfCustomers = planetPaintballBL.VerifyCustomer(customerEmail, customerPassword);
+
+        //     Assert.Same(expectedListOfCustomers, actualListOfCustomers);
+        //     Assert.Equal(customerEmail, actualListOfCustomers[0].Email);
+        //     Assert.Equal(customerPassword, actualListOfCustomers[0].Password);
+
+        // }      
+
     }
 
 }

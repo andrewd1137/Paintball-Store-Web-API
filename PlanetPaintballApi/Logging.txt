@@ -12,3 +12,4 @@
 2022-03-01 12:14:32.099 -05:00 [INF] User started placing the order!
 2022-03-01 12:14:32.159 -05:00 [INF] User placed their order!
 2022-03-01 12:14:42.842 -05:00 [INF] User has gotten all customers
+2022-03-01 14:47:30.654 -05:00 [INF] User has gotten all customers

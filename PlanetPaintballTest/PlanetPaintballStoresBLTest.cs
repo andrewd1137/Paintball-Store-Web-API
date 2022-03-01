@@ -189,6 +189,43 @@ namespace PlanetPaintballTest
 
         }
 
+        [Fact]
+        public void ShouldGetStoreProductsByAddress()
+        {
+
+            int productID = 1;
+            string productName = "Pen";
+            decimal productPrice = 100.00M;
+            string productCategory = "Category";
+            string productDescription = "Description";
+
+            string storeAddress = "21 Paint St";
+
+            Products product = new Products()
+            {
+                ID = productID,
+                Name = productName,
+                Price = productPrice,
+                Category = productCategory,
+                Description = productDescription
+            };
+
+            List<Products> expectedListOfProducts = new List<Products>();
+            expectedListOfProducts.Add(product);
+
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+            mockRepo.Setup(repo => repo.GetProductsByStoreAddress(storeAddress)).Returns(expectedListOfProducts);            
+
+            IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+            List<Products> actualListOfProducts = planetPaintballStoresBL.GetProductsByStoreAddress(storeAddress);
+
+            Assert.Same(expectedListOfProducts, actualListOfProducts);
+
+        }
+
     }
 
 }
