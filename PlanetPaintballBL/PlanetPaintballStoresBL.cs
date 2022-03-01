@@ -62,7 +62,6 @@ namespace PPBL
         {
             List<Orders> filterOrders = new List<Orders>();
             List<Orders> listAllOrder =  _repo.GetAllOrders();
-            List<Products> ListAllProducts = _repo.GetAllProducts();
 
             int customerId = 0;
             int storeId = 0;

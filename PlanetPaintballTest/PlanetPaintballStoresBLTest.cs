@@ -146,17 +146,30 @@ namespace PlanetPaintballTest
         }
 
         [Fact]
-        public void ShouldUpdateStoreInventory()
+        public void ShouldThrowVerifiedManagerException()
         {
-            int testStoreId = 1;
-            int testProductID = 1;
-            int testProductQuantity = 2;
+
+            Manager manager = new Manager()
+            {
+                storeID = 1,
+                Email = "joe@email.com",
+                Password = "1234"
+            };
+
+            List<Manager> expectedListOfManagers = new List<Manager>();
+            expectedListOfManagers.Add(manager);
 
             Mock<IRepository> mockRepo = new Mock<IRepository>();
 
-            mockRepo.Setup(repo => repo.UpdateInventory(testStoreId, testProductID, testProductQuantity)).Verifiable();            
+            mockRepo.Setup(repo => repo.GetAllManagers()).Returns(expectedListOfManagers);            
 
             IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+            bool isNotVerified = planetPaintballStoresBL.VerifyManager("bob@email.com", "4321", 2);
+            bool isVerified = planetPaintballStoresBL.VerifyManager("joe@email.com", "1234", 1);
+
+            Assert.Equal(false, isNotVerified);
+            Assert.Equal(true, isVerified);
 
         }
 
