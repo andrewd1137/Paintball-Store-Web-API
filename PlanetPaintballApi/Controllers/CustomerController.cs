@@ -30,10 +30,12 @@ namespace PlanetPaintballApi.Controllers
         {
             try
             {
+                Log.Information("User has gotten all customers");
                 return Ok(_planetPaintballBL.GetCustomers());
             }
             catch (SqlException)
             {
+                Log.Warning("Could not return customers!");
                 return NotFound();
             }
         }   
@@ -44,10 +46,12 @@ namespace PlanetPaintballApi.Controllers
         {
             try
             {
+                Log.Information("User has searched for a customer");
                 return Ok(_planetPaintballBL.SearchCustomer(customerInfo));
             }
             catch (SqlException)
             {
+                Log.Warning("Could not find customer user searched for!");
                 return NotFound();
             }
         }
@@ -57,11 +61,13 @@ namespace PlanetPaintballApi.Controllers
         {
             try
             {
+                Log.Information("User has verified customer credentials");
                 _planetPaintballBL.VerifyCustomer(customerEmail, customerPassword);
                 return Ok();
             }
             catch (SqlException)
             {
+                Log.Warning("User with these credentials do not match!");
                 return NotFound();
             }
         }
@@ -72,10 +78,12 @@ namespace PlanetPaintballApi.Controllers
         {
             try
             {
+                Log.Information("User has added a customer!");
                 return Created("Successfully added", _planetPaintballBL.AddCustomer(p_customer));
             }
             catch (System.Exception ex)
             {
+                Log.Warning("Could not add the user trying to be created!");
                 return Conflict(ex.Message);
             }
         }

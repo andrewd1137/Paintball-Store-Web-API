@@ -1,12 +1,12 @@
-//global using Serilog;
+global using Serilog;
 using PPBL;
 using PPDL;
 
-// Log.Logger = new LoggerConfiguration()
-//     .WriteTo.File("./Logging.txt")
-//     .CreateLogger();
-
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File("./Logging.txt")
+    .CreateLogger();
 
 // Add services to the container.
 

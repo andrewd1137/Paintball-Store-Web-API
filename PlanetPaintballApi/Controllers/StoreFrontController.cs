@@ -73,20 +73,24 @@ namespace PlanetPaintballApi.Controllers
         {
             try
             {
+                Log.Information("Verifying if user is a manager for a store.");
                 bool isManager = _planetPaintballStoresBL.VerifyManager(p_managerEmail, p_managerPassword, p_storeID);
                 if(isManager)
                 {
+                    Log.Information("User is a manager and updated store inventory!");
                     _planetPaintballStoresBL.UpdateInventory(p_storeID, p_productID, p_quantity);
                     return Ok();
                 }
                 else
                 {
+                    Log.Warning("Could not update store inventory. User might not be a manager or they are trying to add to the wrong store");
                     Exception exc = new Exception ("Manager Credentials did not match for that store.");
                     return Conflict(exc);
                 }
             }
             catch(SqlException)
             {
+                Log.Warning("Could not find store or product to add inventory to");
                 return NotFound();
             }
         }
@@ -96,11 +100,14 @@ namespace PlanetPaintballApi.Controllers
         {
             try
             {
+                Log.Information("User started placing the order!");
                 _planetPaintballStoresBL.StartOrder(p_order);
+                Log.Information("User placed their order!");
                 return Created("Successfully placed order",_planetPaintballStoresBL.MakeAnOrder(p_order));
             }
             catch(System.Exception ex)
             {
+                Log.Warning("The order was not able to be made");
                 _planetPaintballStoresBL.DeleteOrder(p_order);
                 return Conflict(ex.Message);
             }

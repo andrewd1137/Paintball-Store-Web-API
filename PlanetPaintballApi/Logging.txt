@@ -1,0 +1,14 @@
+2022-03-01 12:10:39.394 -05:00 [INF] User has gotten all customers
+2022-03-01 12:10:53.834 -05:00 [INF] User has searched for a customer
+2022-03-01 12:11:00.830 -05:00 [INF] User has searched for a customer
+2022-03-01 12:11:13.081 -05:00 [INF] User has verified customer credentials
+2022-03-01 12:11:17.064 -05:00 [INF] User has verified customer credentials
+2022-03-01 12:12:07.556 -05:00 [INF] User has added a customer!
+2022-03-01 12:12:19.173 -05:00 [INF] User has searched for a customer
+2022-03-01 12:13:37.000 -05:00 [INF] Verifying if user is a manager for a store.
+2022-03-01 12:13:37.023 -05:00 [INF] User is a manager and updated store inventory!
+2022-03-01 12:13:41.899 -05:00 [INF] Verifying if user is a manager for a store.
+2022-03-01 12:13:41.922 -05:00 [WRN] Could not update store inventory. User might not be a manager or they are trying to add to the wrong store
+2022-03-01 12:14:32.099 -05:00 [INF] User started placing the order!
+2022-03-01 12:14:32.159 -05:00 [INF] User placed their order!
+2022-03-01 12:14:42.842 -05:00 [INF] User has gotten all customers
