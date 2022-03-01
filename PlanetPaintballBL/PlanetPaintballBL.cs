@@ -90,15 +90,10 @@ namespace PPBL
                     throw new Exception("A customer with this email has not been found.");
                 }                    
 
-            }
-
-            //If trying to add new search ways and this error ever happens, 
-            //make sure that you typed the searchMode string correctly in the SearchCustomerMenu.
-            //Otherwise if strings in this searchMode match the string passed by the menu, then this
-            //exception should never run unless user's pc is messed up. 
+            } 
             else
             {
-                throw new Exception("Could not search for customer! Some error has occurred. Try restarting program.");
+                throw new Exception("Could not search for customer! Make sure your search matches either a name or an email");
             }
             
         }

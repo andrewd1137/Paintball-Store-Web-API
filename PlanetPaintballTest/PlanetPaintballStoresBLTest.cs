@@ -289,6 +289,84 @@ namespace PlanetPaintballTest
             Assert.Equal(order.orderTotalCost, order1.orderTotalCost);
         }
 
+        [Fact]
+        public void ShouldThrowViewInventoryException()
+        {
+
+            int testStoreID = 1;
+            string testStoreName = "Planet Paintball";
+            string storeAddress = "21 Paint St";
+
+            StoreFront store = new StoreFront()
+            {
+                ID = testStoreID,
+                Name = testStoreName,
+                Address = storeAddress
+            };
+
+            List<StoreFront> expectedListOfStores = new List<StoreFront>();
+            expectedListOfStores.Add(store);
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+            mockRepo.Setup(repo => repo.GetStoreFronts()).Returns(expectedListOfStores);            
+
+            IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+            Assert.Throws<System.Exception>( () => planetPaintballStoresBL.ViewInventory("John"));
+
+        }
+
+        [Fact]
+        public void ShouldThrowGetOrdersException()
+        {
+
+            int testStoreID = 1;
+            string testStoreName = "Planet Paintball";
+            string storeAddress = "21 Paint St";
+
+            StoreFront store = new StoreFront()
+            {
+                ID = testStoreID,
+                Name = testStoreName,
+                Address = storeAddress
+            };
+
+            Orders order = new Orders()
+            {
+                OrderID = 1,
+                storeName = "Planet Paintball",
+                orderTotalCost = 100M,
+            };
+
+            Customer customer = new Customer()
+            {
+                Name = "Bob",
+                Email = "bob@email.com",
+                Password = "1234"
+            };
+
+            List<StoreFront> expectedListOfStores = new List<StoreFront>();
+            expectedListOfStores.Add(store);
+
+            List<Customer> listOfCustomers = new List<Customer>();
+            listOfCustomers.Add(customer);
+
+            List<Orders> listOfOrders = new List<Orders>();
+            listOfOrders.Add(order);
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+
+            mockRepo.Setup(repo => repo.GetStoreFronts()).Returns(expectedListOfStores);            
+            mockRepo.Setup(repo => repo.GetAllOrders()).Returns(listOfOrders);
+            mockRepo.Setup(repo => repo.GetAllCustomers()).Returns(listOfCustomers);
+
+            IPlanetPaintballStoresBL planetPaintballStoresBL = new PlanetPaintballStoresBL(mockRepo.Object);
+
+            Assert.Throws<System.Exception>( () => planetPaintballStoresBL.GetOrders("@@@@@@@", "cost-low2high"));
+
+        }
+
     }
 
 }

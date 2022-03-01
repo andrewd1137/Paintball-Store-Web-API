@@ -29,3 +29,21 @@
 2022-03-01 15:43:23.369 -05:00 [WRN] Could not update store inventory. User might not be a manager or they are trying to add to the wrong store
 2022-03-01 15:43:56.481 -05:00 [INF] User started placing the order!
 2022-03-01 15:43:56.534 -05:00 [INF] User placed their order!
+2022-03-01 16:33:53.233 -05:00 [INF] User has gotten all customers
+2022-03-01 16:34:03.183 -05:00 [INF] User has searched for a customer
+2022-03-01 16:34:12.663 -05:00 [INF] User has searched for a customer
+2022-03-01 16:34:17.259 -05:00 [INF] User has searched for a customer
+2022-03-01 16:36:36.534 -05:00 [INF] User has searched for a customer
+2022-03-01 16:36:43.095 -05:00 [INF] User has searched for a customer
+2022-03-01 16:36:54.258 -05:00 [INF] User has verified customer credentials
+2022-03-01 16:37:01.193 -05:00 [INF] User has verified customer credentials
+2022-03-01 16:37:52.868 -05:00 [INF] User has added a customer!
+2022-03-01 16:39:38.172 -05:00 [INF] Verifying if user is a manager for a store.
+2022-03-01 16:39:38.194 -05:00 [INF] User is a manager and updated store inventory!
+2022-03-01 16:39:48.244 -05:00 [INF] Verifying if user is a manager for a store.
+2022-03-01 16:39:48.266 -05:00 [WRN] Could not update store inventory. User might not be a manager or they are trying to add to the wrong store
+2022-03-01 16:40:32.861 -05:00 [INF] User started placing the order!
+2022-03-01 16:40:32.909 -05:00 [INF] User placed their order!
+2022-03-01 16:41:51.061 -05:00 [INF] User started placing the order!
+2022-03-01 16:41:51.107 -05:00 [INF] User placed their order!
+2022-03-01 16:41:51.130 -05:00 [WRN] The order was not able to be made
