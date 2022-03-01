@@ -132,7 +132,38 @@ namespace PlanetPaintballTest
 
             Assert.Throws<System.Exception>( () => planetPaintballBL.VerifyCustomer("john@email.com", "432432"));
 
-        }      
+        }
+
+        [Fact]
+        public void ShouldThrowCustomerAlreadyExistsException()
+        {
+
+            string customerName = "Andrew DeMarco";
+            string customerEmail = "andrew@email.com";
+            string customerAddress = "123 St";
+            string customerPassword = "1234";
+
+            Customer customer = new Customer()
+            {
+                Name = customerName,
+                Email = customerEmail,
+                Address = customerAddress,
+                Password = customerPassword
+            };
+
+            List<Customer> expectedListOfCustomers = new List<Customer>();
+            expectedListOfCustomers.Add(customer);
+
+            Mock<IRepository> mockRepo = new Mock<IRepository>();
+          
+            mockRepo.Setup(repo => repo.GetAllCustomers()).Returns(expectedListOfCustomers);
+
+            IPlanetPaintballBL planetPaintballBL = new PlanetPaintballBL(mockRepo.Object);
+
+            //customer already exists now
+            Assert.Throws<System.Exception>( () => planetPaintballBL.AddCustomer(customer));
+
+        }
 
     }
 
