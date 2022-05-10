@@ -53,8 +53,8 @@ can run tests using dotnet test in the project's test folder.
 !! THE DEPLOYED VERSION OF THIS API HAS BEEN TAKEN DOWN !!
 
 Base Azure Deployed App Link
- ̶h̶t̶t̶p̶s̶:̶/̶/̶p̶p̶d̶b̶w̶e̶b̶a̶p̶p̶.̶a̶z̶u̶r̶e̶w̶e̶b̶s̶i̶t̶e̶s̶.̶n̶e̶t̶
+_Link no longer exists_
 
 use proper endpoints for certain tools with the API
 example for getting all customers (Note the credentials for this application are basic and do not take security into account. Proper authentication with security is something to add).
- ̶h̶t̶t̶p̶s̶:̶/̶/̶p̶p̶d̶b̶w̶e̶b̶a̶p̶p̶.̶a̶z̶u̶r̶e̶w̶e̶b̶s̶i̶t̶e̶s̶.̶n̶e̶t̶/̶a̶p̶i̶/̶C̶u̶s̶t̶o̶m̶e̶r̶/̶G̶e̶t̶A̶l̶l̶C̶u̶s̶t̶o̶m̶e̶r̶s̶
+_Link no longer exists_
